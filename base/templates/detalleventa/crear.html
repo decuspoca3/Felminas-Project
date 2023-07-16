@@ -1,0 +1,33 @@
+{% extends 'partials/body.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block contenido %}
+<div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
+    <div class="d-flex justify-content-end">
+    <h6  style="color: aliceblue;"><a href="{% url 'index' %}"style="text-decoration: none; color: yellow">Felminas</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+      </svg>
+      <a href="{% url 'detalleventa' %}" style="text-decoration: none; color: yellow"> Detalle Venta</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+      </svg>
+      <a href="{% url 'detalleventa_crear' %}" style="text-decoration: none; color: yellow">Crear</a></h6>
+    </div>
+</div>
+
+<div class=" container " style="color: aliceblue; background-color: black; border-radius: 11px;">
+
+    <div class="" style="padding: 1% 0% 1% 2% /*background-color: #212529;*/" >
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+    </div>
+    <div style="padding: 0% 0% 4% 2%">
+        <input  class="w-25 btn btn-warning border border-4 border border-aliceblue" style="font-family: 'Libre Franklin', sans-serif;" type="submit" value="Agregar {{titulo}}">
+        <a href="{% url 'detalleventa' %}" class="w-25  btn btn-outline-danger " style="height: 45px; font-family: 'Libre Franklin', sans-serif; "> Cancelar {{titulo}}</a>
+    </div>
+    </form>
+</div>
+{% endblock contenido %}

@@ -1,0 +1,25 @@
+{% load static %}
+<script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'js/adminlte/adminlte.js' %}"></script>
+<script src="{% static 'js/DataTables/datatables.min.js' %}"></script>
+<script src="{% static 'js/Overlay/jquery.overlayScrollbars.min.js' %}"></script>
+
+<script src="{% static 'js/sweetalert2/sweetalert2.all.min.js' %}"></script>
+
+
+<!-- Para los filtros de las tablas -->
+<script>
+    $(document).ready(function () {
+        $('#lista-tabla').DataTable({
+            "responsive": true,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#lista-tabla_wrapper .col-md-6:eq(0)');
+    });
+</script>
+
+<script>
+    $(".bton_eliminar").click(function () {
+        var ident = $(this).data("ident");
+        $("#btnConfElim").attr("href", "/{{modulo|lower}}/{{titulo|lower}}/eliminar/" + ident);
+    });
+</script>

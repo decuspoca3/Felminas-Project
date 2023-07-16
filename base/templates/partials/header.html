@@ -1,0 +1,71 @@
+{% load static %}
+<header class="p-3 bg-dark" >
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <img src="{% static 'img/logo.png' %}" alt="logo" width="80" height="80" class="rounded-circle">
+      </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="{% url 'index' %}" class="nav-link px-2 text-white">Inicio</a></li>
+
+
+
+        <div class="dropdown">
+          <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Usuarios
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item " href="{% url 'usuario' %}">Usuario</a></li>
+            <li><a class="dropdown-item " href="{% url 'rol' %}">Rol</a></li>
+          </ul>
+        </div>
+        <div class="dropdown ">
+          <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Productos
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="{% url 'producto' %}">Producto</a></li>
+            <li><a class="dropdown-item " href="{% url 'stock' %}">Stock</a></li>
+          </ul>
+        </div>
+        <div class="dropdown ">
+          <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Ventas
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item " href="{% url 'venta' %}">Venta</a></li>
+            <li><a class="dropdown-item " href="{% url 'detalleventa' %}">Detalle Venta</a></li>
+          </ul>
+        </div>
+        <div class="dropdown ">
+          <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Compras
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item " href="{% url 'compra' %}">Compra</a></li>
+            <li><a class="dropdown-item " href="{% url 'detallecompra' %}">Detalle Compra</a></li>
+            
+
+          </ul>
+        </div>
+      </ul>
+
+
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+      </form>
+
+      <div class="d-flex justify-content-end">
+        <button class="Btn">
+          <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
+
+          <div class="text"><a href="{% url 'logout' %}" style="text-decoration: none; color: #fff">Cerrar</a></div>
+
+      </button>
+
+       
+      </div>
+      
+  </div>
+  </div>
+</header>

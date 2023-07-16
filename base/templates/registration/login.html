@@ -1,0 +1,104 @@
+{% extends 'partials/body-login.html' %}
+{% load static %}
+{% block contenido %}
+
+<div class="d-flex">
+
+<div class="g-col-4" style="height: -800px; width: 860px;">
+    <!-- /.login-logo -->
+    <div class="card card-outline" style="padding: 10%; background-color: #f9c90a;">
+       <img src="static/img/marca.png" alt="">
+    </div>
+</div>
+<div class="g-col-4">
+    <!-- /.login-logo -->
+    <div class="card card-outline">
+        <div class="card-header text-center border-bottom" style="background-color: black;">
+                <div style="padding: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                      </svg>
+                </div>
+            <div class="h1"><b>Felminas</b></div>
+        </div>
+        <div class="card-body" style="padding: 22px; background-color: #1a1a1a">
+            <p class="login-box-msg">Para comenzar a usar nuestro servicio, por favor inicie sesión en su cuenta.</p>
+
+            <form method="post">
+                {% csrf_token %}
+
+         <div class="input-group mb-3">
+                        <input required="" type="text" name="{{ form.username.name }}" autocomplete="off" class="input">
+                        <label class="user-label">Usuario</label>
+
+             <span class="input-group-text border border-warning" style="" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                      </svg></span>
+         </div>
+
+                <div class="input-group mb-3">
+
+                    <input required="" type="password" name="{{ form.password.name }}" autocomplete="off" class="input">
+                        <label class="user-label">Contraseña</label>
+
+                    <span class="input-group-text border border-warning" style="" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                      </svg></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input checked="checked" type="checkbox" name="{{ form.RememberMeCheckbox.name }}" id="remember">
+                            <label for="remember">
+                                Recuérdame
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                   <div class="col-4">
+                        <button class="botto">
+                            Iniciar Sesion
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+                        </div>
+                        </button>
+                    </div>
+
+                    <!-- /.col -->
+                </div>
+            </form>
+
+                    {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                   ingrese sus datos correctamente  
+                </div>
+                    {% endif %}
+
+                    {% if form.username.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.username.errors }}
+                </div>
+                    {% endif %}
+
+                    {% if form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.password.errors }}
+                </div>
+                    {% endif %}
+
+                <p class="mb-1">
+                    <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+                </p>
+            </div>
+        <!-- /.card-body -->
+        </div>
+    <!-- /.card -->
+    </div>
+
+</div>
+</div>
+ 
+{% endblock contenido %}

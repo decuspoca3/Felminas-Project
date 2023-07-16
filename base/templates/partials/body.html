@@ -1,0 +1,106 @@
+{% load static %}
+{% load django_bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+<link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- Incluye el plugin slick -->
+
+    <link rel="stylesheet" href="{% static 'css/Overlay/OverlayScrollbars.min.css' %}">
+    <link href="{% static 'js/DataTables/datatables.min.css' %}" rel="stylesheet"/>
+    <!-- libreria sweetalert2 -->
+    <link rel="stylesheet" href="{% static 'js/SweetAlert2/sweetalert2.min.css' %}">
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/fontello.css ">
+    <title> Felminas - {{ titulo }} </title>
+</head>
+
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" style="background-image: url(/static/img/fondologin.png);">
+       <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center
+       align-items-center">
+     
+   </div>
+    <div class="wrapper">
+        {% include 'partials/header.html' %}
+        {% include 'partials/sidebar.html' %}
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <div class="container-fluid">
+            <!-- Content Header (Page header) -->
+          <div class="content-header">
+              <div class="container-fluid">
+                  <div class="row mb-2">
+                      <div class="col-sm-6" style="padding: 1% 1% 1% 0%;">
+                          
+                      </div><!-- /.col -->
+                  </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+          </div>
+            <!-- /.content-header -->
+                <section class="content">
+                  
+            {% block contenido %}
+
+            {% endblock contenido %}
+            </div>
+
+
+
+    
+
+    </div>
+
+        {% include 'partials/modal.html' %}
+
+        {% include 'partials/footer.html' %}
+    </div>
+    
+    
+    {% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire(
+                {position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer:10000,
+            timerProgressBar: true,
+            background: '#454d55',        
+            icon:'{{ message.tags }}',
+            text:'{{ message }}',
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }        });
+        </script>
+    {% endfor %}
+{% endif %}
+<div class="conta">
+    <input type="checkbox" id="btn-mas">
+    <div class="redes">
+        <a href="#" class="icon-help-circled"></a>
+        
+    </div>
+    <div class="btn-mas">
+        <label for="btn-mas" class="fa fa-plus"></label>
+    </div>
+</div>
+
+</body>
+
+</html>

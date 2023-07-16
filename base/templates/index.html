@@ -1,0 +1,53 @@
+{% extends 'partials/body.html' %} {% block contenido %}
+
+<div class="container bg-black p-2 text-white" style="border-radius: 60px">
+  <div
+    id="carouselExampleIndicators"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
+    <div class="imagenes bg-black" style="border-radius: 35px">
+      <div class="cont">
+        <div
+          class="panel active"
+          style="background-image: url('/static/img/img_1.png.jpeg')"
+        ></div>
+        <div
+          class="panel"
+          style="background-image: url('/static/img/WhatsApp\ Image\ 2023-06-21\ at\ 2.56.59\ AM.jpeg')"
+        ></div>
+        <div
+          class="panel"
+          style="background-image: url('/static/img/img_2.png.jpeg')"
+        ></div>
+        <div
+          class="panel"
+          style="background-image: url('/static/img/img_3.png.jpeg')"
+        ></div>
+        <div
+          class="panel"
+          style="background-image: url('/static/img/img_4.png.jpeg')"
+        ></div>
+      </div>
+      <script src="/static/js/carrousel.js"></script>
+    </div>
+    <script src="/static/js/toggle.js"></script>
+    <div class="menu-horizontal " >
+      <ul>
+        <li style="list-style: none;">
+          <a  href=""  style="text-decoration: none; color: yellow;">Felminas</a>
+          <ul class="menu-vertical">
+            <li>
+              <p>
+                La empresa M&m Felminas S A S tiene como domicilio principal de su actividad la dirección, CARRERA 18 11 73 en la ciudad de SOGAMOSO, BOYACA. El teléfono de M&m Felminas S A S es el 3112013473. Esta empresa fué constituida como SOCIEDAD POR ACCIONES SIMPLIFICADA y se dedica a Comercio al por menor de articulos de ferreteria pinturas y productos de vidrio en establecimientos especializados.
+              </p>
+             
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock contenido %}

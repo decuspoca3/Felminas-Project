@@ -1,0 +1,24 @@
+django
+django-bootstrap5
+django-crispy-forms
+crispy-bootstrap5
+django_bootstrap_icons
+pillow
+
+ComandosBasicos:
+python manage.py createsuperuser
+python manage.py migrate modulo zero
+python manage.py makemigrations
+python manage.py migrate 
+
+
+Gmail:
+pip install google-auth
+pip install google-auth-oauthlib
+pip install google-auth-httplib2
+
+
+backups:
+python manage.py dbbackup  = hacer copia de seguridad
+python manage.py dbrestore = traer la copia de seguridad
+python manage.py flush     = borrar la base de datos 
