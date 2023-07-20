@@ -3,8 +3,8 @@ from django.db import connection
 from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from usuario.models import Usuario, Rol
-from usuario.forms import UsuarioForm, UsuarioUpdateForm, RolForm, RolUpdateForm
+from usuario.models import Usuario, Salario
+from usuario.forms import UsuarioForm, UsuarioUpdateForm, SalarioForm, SalarioUpdateForm
 from django.http import JsonResponse
 
 def hacer_backup(request):
@@ -66,54 +66,53 @@ def usuario_eliminar(request,pk):
     )
     return redirect('usuario')
 
-def rol_crear(request):
-    titulo="Rol"
-    if request.method== 'POST':
-        form= RolForm(request.POST)
+def salario_crear(request):
+    titulo = "Salario"
+    if request.method == 'POST':
+        form = SalarioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('rol')
+            return redirect('salario')
     else:
-        form= RolForm()
-    context={
-        "titulo":titulo,
-        "form":form
+        form = SalarioForm()
+        usuarios_activos = Usuario.objects.filter(estado='1', rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
+        form.fields['usuario'].queryset = usuarios_activos
+    context = {
+        "titulo": titulo,
+        "form": form
     }
-    return render(request,"rol/crear.html", context )
+    return render(request, "salario/crear.html", context)
 
-
-
-
-def rol_listar(request):
-    titulo="Rol"
-    roles= Rol.objects.all()
-    context={
-        "titulo":titulo,
-        "roles":roles
+def salario_listar(request):
+    titulo = "Salario"
+    salarios = Salario.objects.all()
+    context = {
+        "titulo": titulo,
+        "salarios": salarios
     }
-    return render(request,"rol/listar.html", context)
+    return render(request, "salario/listar.html", context)
 
-def rol_modificar(request,pk):
-    titulo="Usuario"
-    rol= Rol.objects.get(id=pk)
+def salario_modificar(request, pk):
+    titulo = "Salario"
+    salario = Salario.objects.get(id=pk)
 
-    if request.method=='POST':
-        form= RolUpdateForm(request.POST, instance=rol)
+    if request.method == 'POST':
+        form = SalarioUpdateForm(request.POST, instance=salario)
         if form.is_valid():
             form.save()
-            return redirect('rol')
+            return redirect('salario')
     else:
-        form= RolUpdateForm(instance=rol)
-    context={
-        "titulo":titulo,
-        "form":form
+        form = SalarioUpdateForm(instance=salario)
+        usuarios_activos = Usuario.objects.filter(estado='1', rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
+        form.fields['usuario'].queryset = usuarios_activos
+    context = {
+        "titulo": titulo,
+        "form": form
     }
-    return render(request,"rol/modificar.html", context)
+    return render(request, "salario/modificar.html", context)
 
-def rol_eliminar(request,pk):
-    rol= Rol.objects.filter(id=pk)
-    rol.update(
-        estado="0"
-    )
-    return redirect('rol')
+def salario_eliminar(request, pk):
+    salario = Salario.objects.filter(id=pk)
+    salario.update(estado="0")
+    return redirect('salario')
 

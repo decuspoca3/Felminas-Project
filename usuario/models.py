@@ -24,11 +24,11 @@ class Usuario(models.Model):
     telefono_personal=models.CharField(max_length=10, verbose_name="Teléfono personal") 
 
     class Rol(models.TextChoices):
-        EMPLEADO='E',_("Empleado")
-        PROVEEDOR='P',_("Proveedor")
-        CLIENTE='C',_("Cliente")
+        EMPLEADO = 'Empleado', _("Empleado")
+        PROVEEDOR = 'Proveedor', _("Proveedor")
+        CLIENTE = 'Cliente', _("Cliente")
 
-    rol=models.CharField(max_length=1, choices=Rol.choices, verbose_name="Rol")
+    rol = models.CharField(max_length=10, choices=Rol.choices, verbose_name="Rol")
 
     correo=models.CharField(max_length=40, verbose_name="Correo Electrónico")
 
@@ -54,34 +54,35 @@ class Usuario(models.Model):
     class Meta:
         verbose_name_plural = "Usuarios"
 
-class Rol(models.Model):
-    class Rol(models.TextChoices):
-        NIVEL1='1',_("Nivel 1")
-        NIVEL2='2',_("Nivel 2")
-        NIVEL3='3',_("Nivel 3")
-        NIVEL4='4',_("Nivel 4")
-    rol=models.CharField(max_length=1,choices=Rol.choices,verbose_name="Rol")
+        
+class Salario(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuario")
+    class Nivel(models.TextChoices):
+        NIVEL1 = '1', _("Nivel 1")
+        NIVEL2 = '2', _("Nivel 2")
+        NIVEL3 = '3', _("Nivel 3")
+        NIVEL4 = '4', _("Nivel 4")
 
+    nivel = models.CharField(max_length=1, choices=Nivel.choices, verbose_name="Nivel de Salario")
     fecha = models.DateField(verbose_name="Fecha", help_text="DD/MM/AAAA")
 
     class Estado(models.TextChoices):
-        ACTIVO='1',_("Activo")
-        INACTIVO='0',_("Inactivo")
-    estado=models.CharField(max_length=1,choices=Estado.choices,default=Estado.ACTIVO,verbose_name="Estado")
-     
+        ACTIVO = '1', _("Activo")
+        INACTIVO = '0', _("Inactivo")
+
+    estado = models.CharField(max_length=1, choices=Estado.choices, default=Estado.ACTIVO, verbose_name="Estado")
+
     def __str__(self):
-        return f"Rol {self.numero}"
+        return f"Salario Nivel {self.nivel} - Fecha: {self.fecha}"
 
     class Meta:
-        verbose_name_plural = "Roles"
+        verbose_name_plural = "Salarios"
 
 
 
 
 
 
-class Usuario_Rol(models.Model):
-    rol=models.ForeignKey(Rol, on_delete=models.CASCADE,verbose_name="Ficha")
-    usuario=models.ForeignKey(Usuario, on_delete=models.CASCADE,verbose_name="Usuario")
+
     
 

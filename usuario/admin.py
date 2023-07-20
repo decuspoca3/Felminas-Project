@@ -1,10 +1,10 @@
 from django.contrib import admin
-from usuario.models import Usuario, Rol, Usuario_Rol
+from usuario.models import Usuario, Salario
 
 
 admin.site.register(Usuario)
-admin.site.register(Rol)
-admin.site.register(Usuario_Rol)
+admin.site.register(Salario)
+
 
 
 

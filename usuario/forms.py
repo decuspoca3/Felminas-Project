@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets
-from usuario.models import Usuario, Rol
+from usuario.models import Usuario, Salario
 
 class UsuarioForm(ModelForm):
 
@@ -18,17 +18,17 @@ class UsuarioUpdateForm(ModelForm):
         fields = "__all__"
         exclude = ["documento","fecha_nacimiento"]
 
-class RolForm(ModelForm):
+class SalarioForm(ModelForm):
 
     class Meta:
-        model = Rol
+        model = Salario
         fields = "__all__"
         widgets={
             'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d')
         }
 
-class RolUpdateForm(ModelForm):
+class SalarioUpdateForm(ModelForm):
 
     class Meta:
-        model = Rol
+        model = Salario
         fields = "__all__"
