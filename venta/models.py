@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from producto.models import Producto
 from usuario.models import Usuario
-from producto.models import Stock
+
 
 # Create your models here.
 class venta(models.Model):
@@ -32,7 +32,7 @@ def obtener_ventas_clientes(cls):
 class Detalleventa(models.Model):
     valortotal= models.CharField(max_length=45, verbose_name="valor total")
     ventas = models.ForeignKey("venta.venta", on_delete=models.CASCADE, verbose_name="Venta")
-    stocks = models.ForeignKey(Stock, on_delete=models.CASCADE, verbose_name="Stock")
+    
     class Estado(models.TextChoices):
         ACTIVO='1',_("Activo")
         INACTIVO='0',_("Inactivo")

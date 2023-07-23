@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets
-from producto.models import Producto,Stock
+from producto.models import Producto
 
 class ProductoForm(ModelForm):
 
@@ -13,19 +13,3 @@ class ProductoUpdateForm(ModelForm):
         model = Producto
         fields = "__all__"
 
-
-class stockForm(ModelForm):
-
-    class Meta:
-        model = Stock
-        fields = "__all__"
-
-        widgets={
-            'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
-        }
-
-class stockUpdateForm(ModelForm):
-    
-    class Meta:
-        model = Stock
-        fields = "__all__"        

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from venta.models import venta,Detalleventa
 from venta.forms import VentaForm, VentaUpdateForm ,DetalleventaForm,DetalleventaUpdateForm
-from producto.models import Producto ,Stock
+from producto.models import Producto 
 from usuario.models import Usuario
 def venta_crear(request):
     titulo="Venta"
@@ -75,8 +75,7 @@ def detalleventa_crear(request):
         form= DetalleventaForm()
         ventas_activos = venta.objects.filter(estado='1')  
         form.fields['ventas'].queryset =  ventas_activos
-        stocks_activos = Stock.objects.filter(estado='1') 
-        form.fields['stocks'].queryset = stocks_activos
+       
     context={
         "titulo":titulo,
         "form":form
