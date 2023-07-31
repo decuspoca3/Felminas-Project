@@ -3,6 +3,31 @@ from compra.models import Compra ,Detallecompra
 from compra.forms import CompraForm, CompraUpdateForm ,DetallecompraForm,DetallecompraUpdateForm
 from producto.models import Producto
 from usuario.models import Usuario
+from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
+from dbbackup.management.commands.dbrestore import Command as DbRestoreCommand
+import os
+def hacer_backup_compra(request):
+    backup_file = 'base/backups/backup_compra.json'
+    call_command('dumpdata', 'compra', 'detallecompra', output=backup_file)
+    return JsonResponse({'success': True, 'message': 'Copia de seguridad realizada correctamente.'})
+
+def hacer_restore_compra(request):
+    backup_file = 'base/backups/backup_compra.json'
+    call_command('loaddata', backup_file)
+    return JsonResponse({'success': True, 'message': 'Restauración de copia de seguridad realizada correctamente.'})
+
+# Vistas de detallecompra (te falta proporcionar el resto del código)
+def hacer_backup_detallecompra(request):
+    backup_file = 'base/backups/backup_detallecompra.json'
+    call_command('dumpdata', 'detallecompra', output=backup_file)
+    return JsonResponse({'success': True, 'message': 'Copia de seguridad realizada correctamente.'})
+
+def hacer_restore_detallecompra(request):
+    backup_file = 'base/backups/backup_detallecompra.json'
+    call_command('loaddata', backup_file)
+    return JsonResponse({'success': True, 'message': 'Restauración de copia de seguridad realizada correctamente.'})
+
+
 def compra_crear(request):
     titulo="Compra"
     if request.method=='POST':
@@ -12,6 +37,10 @@ def compra_crear(request):
             return redirect('detallecompra_crear')   
     else:
         form= CompraForm()
+        usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
+        form.fields['empleado_id'].queryset = usuarios_activos
+        usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.PROVEEDOR)  # Obtener solo los usuarios activos
+        form.fields['proveedor_id'].queryset = usuarios_activos
         
     context={
         "titulo":titulo,
@@ -39,6 +68,10 @@ def compra_modificar(request,pk):
             return redirect('compra')
     else:
         form= CompraUpdateForm(instance=compra)
+        usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
+        form.fields['empleado_id'].queryset = usuarios_activos
+        usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.PROVEEDOR)  # Obtener solo los usuarios activos
+        form.fields['proveedor_id'].queryset = usuarios_activos
                 
         context={
             "titulo":titulo,
@@ -54,28 +87,33 @@ def compra_eliminar(request,pk):
     return redirect('compra')
 
 
-
-
 def detallecompra_crear(request):
-    titulo="Detallecompra"
-    if request.method=='POST':
-        form= DetallecompraForm(request.POST)
+    titulo = "Detallecompra"
+    if request.method == 'POST':
+        form = DetallecompraForm(request.POST)
         if form.is_valid():
-            form.save()
+            detallecompra_obj = form.save()
+
+            # Actualizar el stock del producto comprado
+            producto = detallecompra_obj.producto
+            cantidad_comprada = detallecompra_obj.cantidad
+            producto.stock += int(cantidad_comprada)  # Asegurarse de convertir la cantidad a entero
+            producto.save()
+
             return redirect('detallecompra')
     else:
-        form= DetallecompraForm()
-        usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.CLIENTE)  # Obtener solo los usuarios activos
-        form.fields['usuario'].queryset = usuarios_activos
+        form = DetallecompraForm()
+
         productos_activos = Producto.objects.filter(estado='1')  # Obtener solo los productos activos
         form.fields['producto'].queryset = productos_activos
-        compra_activos = Compra.objects.filter(estado='1') 
-        form.fields['compras'].queryset = compra_activos
-    context={
-        "titulo":titulo,
-        "form":form
+        compras_activas = Compra.objects.filter(estado='1')
+        form.fields['compras'].queryset = compras_activas
+
+    context = {
+        "titulo": titulo,
+        "form": form
     }
-    return render(request,"detallecompra/crear.html",context)
+    return render(request, "detallecompra/crear.html", context)
 
 def detallecompra_listar(request):
     titulo="Detallecompra"
@@ -97,12 +135,10 @@ def detallecompra_modificar(request,pk):
             return redirect('detallecompra')
     else:
         form= DetallecompraUpdateForm(instance=detallecompra)
-        usuarios_activos = Usuario.objects.filter(estado='1')  # Obtener solo los usuarios activos
-        form.fields['usuario'].queryset = usuarios_activos
         productos_activos = Producto.objects.filter(estado='1')  # Obtener solo los productos activos
         form.fields['producto'].queryset = productos_activos
         compra_activos = Compra.objects.filter(estado='1') 
-        form.fields['compras'].queryset = compra_activos       
+        form.fields['compras'].queryset = compra_activos     
         context={
             "titulo":titulo,
             "form":form
