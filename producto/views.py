@@ -14,21 +14,27 @@ def hacer_backup(request):
     DbBackupCommand().handle(filename=backup_file, verbosity=verbosity_level)
 
     return redirect('producto')
+
+
+
 def producto_crear(request):
-    titulo="Producto"
-    if request.method== 'POST':
-        form= ProductoForm(request.POST)
+    titulo = "Producto"
+    if request.method == 'POST':
+        form = ProductoForm(request.POST)
         if form.is_valid():
-            form.save()
+            precio_decimal = form.cleaned_data['precio_str']  # Obtener el valor procesado del precio_str
+            producto = form.save(commit=False)
+            producto.precio = precio_decimal
+            producto.save()
             return redirect('producto')
     else:
-        form= ProductoForm()
-       
-    context={
-        "titulo":titulo,
-        "form":form
+        form = ProductoForm()
+
+    context = {
+        "titulo": titulo,
+        "form": form
     }
-    return render(request,"producto/crear.html", context )
+    return render(request, "producto/crear.html", context)
 
 
 def producto_listar(request):
@@ -65,24 +71,28 @@ def producto_listar(request):
 
 
 
+def producto_modificar(request, pk):
+    titulo = "Producto"
+    producto = Producto.objects.get(id=pk)
 
-
-def producto_modificar(request,pk):
-    titulo="Producto"
-    producto= Producto.objects.get(id=pk)
-
-    if request.method=='POST':
-        form= ProductoUpdateForm(request.POST, instance=producto)
+    if request.method == 'POST':
+        form = ProductoUpdateForm(request.POST, instance=producto)
         if form.is_valid():
+            producto.precio = form.cleaned_data['precio_edit']
             form.save()
             return redirect('producto')
     else:
-        form= ProductoUpdateForm(instance=producto)
-    context={
-        "titulo":titulo,
-        "form":form
+        form = ProductoUpdateForm(instance=producto)
+        form.fields['precio_edit'].initial = str(producto.precio)  # Inicializar el campo de edición de precio
+
+    context = {
+        "titulo": titulo,
+        "form": form
     }
-    return render(request,"producto/modificar.html", context)
+    return render(request, "producto/modificar.html", context)
+
+
+
 
 def producto_eliminar(request,pk):
     producto= Producto.objects.filter(id=pk)

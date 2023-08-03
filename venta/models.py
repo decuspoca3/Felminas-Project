@@ -3,10 +3,11 @@ from django.utils.translation import gettext_lazy as _
 from producto.models import Producto
 from usuario.models import Usuario
 from django.db.models import Sum
+import uuid
 
 
 class venta(models.Model):
-    numero_serie = models.CharField(max_length=100)
+    numero_serie = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
     cliente_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ventas_realizadas',verbose_name=_("Cliente"))
     empleado_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ventas_atendidas',verbose_name=_("Empleado")) 
     fecha = models.DateField(verbose_name="Fecha", help_text="MM/DD/AAAA")

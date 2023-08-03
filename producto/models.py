@@ -7,7 +7,7 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=45, verbose_name=_("Nombre"))
     descripcion = models.CharField(max_length=60, verbose_name=_("Descripcion"))
     marca = models.CharField(max_length=30, verbose_name=_("Marca"))
-    precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Precio"))
+    precio = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Precio"))
     stock = models.IntegerField(verbose_name=_("Stock"))
     
     class Estado(models.TextChoices):
@@ -19,6 +19,13 @@ class Producto(models.Model):
 
     def __str__(self):
         return f"Producto: {self.nombre} ,Stock: {self.stock} "
+    
+    def precio_colombiano(self):
+     formatted_price = "${:,.0f}".format(self.precio)  # Sin decimales y sin coma separadora
+     return formatted_price
+
+    
+    
     
     def actualizar_stock(self):
         # Obtener la suma total de la cantidad comprada en Detallecompra

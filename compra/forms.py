@@ -22,8 +22,9 @@ class DetallecompraForm(ModelForm):
 
     class Meta:
         model = Detallecompra
+        exclude = ['valortotal'] 
         fields = "__all__"
-
+        
         widgets={
             'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
         }
