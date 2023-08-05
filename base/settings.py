@@ -175,3 +175,5 @@ DBBACKUP_STORAGE_OPTIONS = {
     'location': BASE_DIR / 'base' / 'backups/'
 }
 
+LANGUAGE_CODE = 'es-CO'  # Código de idioma y ubicación de Colombia
+USE_L10N = True  
