@@ -4,6 +4,8 @@ from producto.models import Producto
 from usuario.models import Usuario
 from django.db.models import Sum
 import uuid
+from decimal import Decimal
+import locale
 
 
 class venta(models.Model):
@@ -11,7 +13,6 @@ class venta(models.Model):
     cliente_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ventas_realizadas',verbose_name=_("Cliente"))
     empleado_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ventas_atendidas',verbose_name=_("Empleado")) 
     fecha = models.DateField(verbose_name="Fecha", help_text="MM/DD/AAAA")
-    monto = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Estado(models.TextChoices):
         ACTIVA = '1', _("Activa")
@@ -32,7 +33,7 @@ class Detalleventa(models.Model):
     cantidad = models.IntegerField()
     ventas = models.ForeignKey("venta.venta", on_delete=models.CASCADE, verbose_name="Venta")
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name="Producto")
-    valortotal = models.CharField(max_length=10, verbose_name="valor total")
+    valortotal = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Valor total", editable=False)
 
     class Estado(models.TextChoices):
         ACTIVO = '1', _("Activo")
@@ -48,3 +49,15 @@ class Detalleventa(models.Model):
             producto = self.producto
             producto.stock -= self.cantidad
             producto.save()
+    
+    def save(self, *args, **kwargs):
+        self.valortotal_calculado = self.cantidad * self.producto.precio
+        self.valortotal = self.valortotal_calculado
+        super().save(*args, **kwargs)
+    
+    @property
+    def valortotal_colombiano(self):
+        locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
+        formatted_valortotal = locale.currency(self.valortotal, grouping=True, symbol=False)
+        return formatted_valortotal
+   

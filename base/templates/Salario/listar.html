@@ -15,6 +15,12 @@
     
 </head>
 {% block contenido %}
+<div  class="preloader flex-column justify-content-center  align-items-center">
+  <img class="animation__wobble" src="/static/img/logo.png"
+      alt="AdminLTELogo" height="200"
+      width="200">
+</div>
+
 <div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
   <div class="d-flex justify-content-end">
   <h6  style="color: aliceblue;"><a href="{% url 'index' %}"style="text-decoration: none; color: yellow">Felminas</a>
@@ -38,8 +44,9 @@
 <table id="example" class="table table-striped table-hover table table-dark">
   <thead>
     <tr>
+      <th>Id</th>
       <th>Nivel</th>
-      <th>Usuario</th>
+      <th>Empleado</th>
       <th>Fecha</th>
       <th>Estado</th>
       <th>Acciones</th>
@@ -51,6 +58,7 @@
     {% if salario.estado != "0" %}
     
     <tr>
+      <td>{{salario.id}}</td>
       <td>{{salario.nivel}}</td>
       <td>{{salario.usuario}}</td>
       <td>{{salario.fecha}}</td>
@@ -84,6 +92,8 @@
 </table>
 </div>
 </div>
+
+<div style="padding: 0% 0% 10% 0%"></div>
 <script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
  <script src="/static/datatables_custom/popper/popper.min.js"></script>
  <script src="/static/datatables_custom/bootstrap/js/bootstrap.min.js"></script>

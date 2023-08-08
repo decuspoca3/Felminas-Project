@@ -23,6 +23,11 @@
 </head>
 
 {% block contenido %}
+<div  class="preloader flex-column justify-content-center  align-items-center">
+  <img class="animation__wobble" src="/static/img/logo.png"
+      alt="AdminLTELogo" height="200"
+      width="200">
+</div>
 <div class="derecha bg-black p-2 text-dark bg-opacity-50" style="width: 101.4%">
   <div class="d-flex justify-content-end">
     <h6 style="color: aliceblue">
@@ -74,6 +79,7 @@
     >
       <thead>
         <tr>
+          <th>Id</th>
           <th>Nombre</th>
           <th>Descripcion</th>
           <th>Marca</th>
@@ -86,6 +92,7 @@
       <tbody>
         {% for producto in productos %} {% if producto.estado != "0" %}
         <tr>
+          <td>{{ producto.id}}</td>
           <td>{{ producto.nombre }}</td>
           <td>{{ producto.descripcion }}</td>
           <td>{{ producto.marca }}</td>
@@ -166,7 +173,7 @@
     {% endif %}
   </div>
 </div>
-
+<div style="padding: 0% 0% 10% 0%"></div>
 <!-- jQuery, Popper.js, Bootstrap JS -->
 <script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
 <script src="/static/datatables_custom/popper/popper.min.js"></script>

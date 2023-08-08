@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'producto',
     'venta',
     'compra',
+    'accounts',
     'django_bootstrap5', #pip install django-bootstrap5
     'crispy_forms', #pip install django-crispy-forms
     'crispy_bootstrap5', #pip install crispy-bootstrap5

@@ -9,6 +9,9 @@ from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
 from dbbackup.management.commands.dbrestore import Command as DbRestoreCommand
 from django.core.management import call_command
 from django.http import JsonResponse
+from decimal import Decimal
+
+
 
 def hacer_backup_venta(request):
     backup_file = 'base/backups/backup_venta.json'
@@ -66,7 +69,9 @@ def venta_crear(request):
         form = VentaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('venta')
+        messages.success(request, 'Venta creado exitosamente.')
+
+        return redirect('detalleventa_crear')
     else:
         form = VentaForm()
         usuarios_activos = Usuario.objects.filter(estado='1', rol=Usuario.Rol.CLIENTE)  # Obtener solo los usuarios activos
@@ -97,7 +102,9 @@ def venta_modificar(request, pk):
         form = VentaUpdateForm(request.POST, instance=venta_obj)
         if form.is_valid():
             form.save()
-            return redirect('venta')
+        messages.success(request, 'Venta modificado exitosamente.')
+
+        return redirect('venta')
     else:
         form = VentaUpdateForm(instance=venta_obj)
         usuarios_activos = Usuario.objects.filter(estado='1', rol=Usuario.Rol.CLIENTE)  # Obtener solo los usuarios activos
@@ -132,6 +139,7 @@ def detalleventa_crear(request):
                 detalleventa.actualizar_stock_producto()  # Actualizar el stock del producto
                 detalleventa.save()  # Ahora sí, guardar la venta
 
+                messages.success(request, 'Detalle de venta creado exitosamente.')  # Mensaje de éxito
                 return redirect('detalleventa')
             else:
                 # Mostrar un mensaje de error si la cantidad vendida supera el stock
@@ -172,7 +180,9 @@ def detalleventa_modificar(request, pk):
         form = DetalleventaUpdateForm(request.POST, instance=detalleventa)
         if form.is_valid():
             form.save()
-            return redirect('detalleventa')
+        messages.success(request, 'Detalle de venta modificado exitosamente.')  # Mensaje de éxito
+
+        return redirect('detalleventa')
     else:
         form = DetalleventaUpdateForm(instance=detalleventa)
         ventas_activas = venta.objects.filter(estado='1')  

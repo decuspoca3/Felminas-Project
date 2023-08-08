@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from usuario.models import Usuario, Salario
 from usuario.forms import UsuarioForm, UsuarioUpdateForm, SalarioForm, SalarioUpdateForm
 from django.http import JsonResponse
+from django.contrib import messages
+
 
 def hacer_backup(request):
     # Ruta donde deseas guardar el archivo de backup (asegúrate de que la carpeta "backups" exista)
@@ -24,7 +26,9 @@ def usuario_crear(request):
         form= UsuarioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('usuario')
+        messages.success(request, 'Usuario creado exitosamente.')
+
+        return redirect('usuario')
     else:
         form= UsuarioForm()
     context={
@@ -50,7 +54,9 @@ def usuario_modificar(request,pk):
         form= UsuarioUpdateForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-            return redirect('usuario')
+        messages.success(request, 'Usuario modificado exitosamente.')
+
+        return redirect('usuario')
     else:
         form= UsuarioUpdateForm(instance=usuario)
     context={
@@ -72,6 +78,7 @@ def salario_crear(request):
         form = SalarioForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Salario creado exitosamente.')
             return redirect('salario')
     else:
         form = SalarioForm()
@@ -100,7 +107,9 @@ def salario_modificar(request, pk):
         form = SalarioUpdateForm(request.POST, instance=salario)
         if form.is_valid():
             form.save()
-            return redirect('salario')
+        messages.success(request, 'Salario modificado exitosamente.')
+
+        return redirect('salario')
     else:
         form = SalarioUpdateForm(instance=salario)
         usuarios_activos = Usuario.objects.filter(estado='1', rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos

@@ -3,6 +3,57 @@ from producto.models import Producto
 from producto.forms import ProductoForm, ProductoUpdateForm
 from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
 import os
+from django.contrib import messages
+
+def producto_crear(request):
+    titulo = "Producto"
+    if request.method == 'POST':
+        form = ProductoForm(request.POST)
+        if form.is_valid():
+            precio_decimal = form.cleaned_data['precio_str']  # Obtener el valor procesado del precio_str
+            producto = form.save(commit=False)
+            producto.precio = precio_decimal
+            producto.save()
+
+            # Agregar mensaje de alerta en caso de éxito
+            messages.success(request, 'Producto creado exitosamente.')
+
+            return redirect('producto')
+    else:
+        form = ProductoForm()
+
+    context = {
+        "titulo": titulo,
+        "form": form
+    }
+    return render(request, "producto/crear.html", context)
+
+def producto_modificar(request, pk):
+    titulo = "Producto"
+    producto = Producto.objects.get(id=pk)
+
+    if request.method == 'POST':
+        form = ProductoUpdateForm(request.POST, instance=producto)
+        if form.is_valid():
+            producto.precio = form.cleaned_data['precio_edit']
+            form.save()
+
+            # Agregar mensaje de alerta en caso de éxito
+            messages.success(request, 'Producto modificado exitosamente.')
+
+            return redirect('producto')
+    else:
+        form = ProductoUpdateForm(instance=producto)
+        form.fields['precio_edit'].initial = "{:,.0f}".format(producto.precio)
+
+    context = {
+        "titulo": titulo,
+        "form": form
+    }
+    return render(request, "producto/modificar.html", context)
+
+
+
 
 def hacer_backup(request):
     # Ruta donde deseas guardar el archivo de backup (asegúrate de que la carpeta "backups" exista)
@@ -17,24 +68,7 @@ def hacer_backup(request):
 
 
 
-def producto_crear(request):
-    titulo = "Producto"
-    if request.method == 'POST':
-        form = ProductoForm(request.POST)
-        if form.is_valid():
-            precio_decimal = form.cleaned_data['precio_str']  # Obtener el valor procesado del precio_str
-            producto = form.save(commit=False)
-            producto.precio = precio_decimal
-            producto.save()
-            return redirect('producto')
-    else:
-        form = ProductoForm()
 
-    context = {
-        "titulo": titulo,
-        "form": form
-    }
-    return render(request, "producto/crear.html", context)
 
 
 def producto_listar(request):
@@ -70,26 +104,6 @@ def producto_listar(request):
     return render(request, "producto/listar.html", context)
 
 
-
-def producto_modificar(request, pk):
-    titulo = "Producto"
-    producto = Producto.objects.get(id=pk)
-
-    if request.method == 'POST':
-        form = ProductoUpdateForm(request.POST, instance=producto)
-        if form.is_valid():
-            producto.precio = form.cleaned_data['precio_edit']
-            form.save()
-            return redirect('producto')
-    else:
-        form = ProductoUpdateForm(instance=producto)
-        form.fields['precio_edit'].initial = str(producto.precio)  # Inicializar el campo de edición de precio
-
-    context = {
-        "titulo": titulo,
-        "form": form
-    }
-    return render(request, "producto/modificar.html", context)
 
 
 

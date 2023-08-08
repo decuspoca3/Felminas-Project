@@ -1,8 +1,7 @@
+
 from django import forms
 from django.forms import ModelForm
 from producto.models import Producto
-from django.utils.translation import gettext_lazy as _
-from decimal import Decimal  # Agrega esta línea para importar la clase Decimal
 from django.core.exceptions import ValidationError
 
 class ProductoForm(ModelForm):
@@ -11,21 +10,17 @@ class ProductoForm(ModelForm):
     class Meta:
         model = Producto
         fields = "__all__"
-        exclude = ['precio']  # Excluye el campo 'precio' del formulario
-
+        exclude = ['precio']
 
     def clean_precio_str(self):
         precio_str = self.cleaned_data['precio_str']
-        precio_str = precio_str.replace(",", "").replace(".", "")  # Remover comas y puntos
+        precio_str = precio_str.replace(",", "")
         try:
-            precio_decimal = Decimal(precio_str) / 100  # Convertir a formato decimal (2 decimales)
+            precio_decimal = float(precio_str)
             return precio_decimal
-        except DecimalException:  # Reemplaza DecimalException con la excepción adecuada
-            raise forms.ValidationError("Asegúrese de que no haya más de 2 decimales.")
-        
-        
-        
-        
+        except ValueError:
+            raise forms.ValidationError("Asegúrese de ingresar un valor numérico válido.")
+
 class ProductoUpdateForm(ModelForm):
     precio_edit = forms.CharField(
         label="Precio Edición",
@@ -47,3 +42,4 @@ class ProductoUpdateForm(ModelForm):
             return precio_decimal
         except (ValueError, TypeError):
             raise ValidationError("Precio no válido. Asegúrese de que no hayan más de 2 decimales.")
+

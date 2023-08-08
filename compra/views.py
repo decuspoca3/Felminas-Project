@@ -6,6 +6,9 @@ from usuario.models import Usuario
 from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
 from dbbackup.management.commands.dbrestore import Command as DbRestoreCommand
 import os
+from django.contrib import messages
+
+
 def hacer_backup_compra(request):
     backup_file = 'base/backups/backup_compra.json'
     call_command('dumpdata', 'compra', 'detallecompra', output=backup_file)
@@ -34,7 +37,9 @@ def compra_crear(request):
         form= CompraForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('detallecompra_crear')   
+        messages.success(request, 'Compra creado exitosamente.')  # Mensaje de éxito
+
+        return redirect('detallecompra_crear')   
     else:
         form= CompraForm()
         usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
@@ -65,7 +70,9 @@ def compra_modificar(request,pk):
         form= CompraUpdateForm(request.POST, instance=compra)
         if form.is_valid():
             form.save()
-            return redirect('compra')
+        messages.success(request, 'Compra modificado exitosamente.')  # Mensaje de éxito
+
+        return redirect('compra')
     else:
         form= CompraUpdateForm(instance=compra)
         usuarios_activos = Usuario.objects.filter(estado='1',rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
@@ -92,13 +99,18 @@ def detallecompra_crear(request):
     if request.method == 'POST':
         form = DetallecompraForm(request.POST)
         if form.is_valid():
-            detallecompra_obj = form.save()
+            precio_decimal = form.cleaned_data['precio_str']  
+            detallecompra_obj = form.save(commit=False)
+            detallecompra_obj.Precio = precio_decimal
+            detallecompra_obj.save()
 
             # Actualizar el stock del producto comprado
             producto = detallecompra_obj.producto
             cantidad_comprada = detallecompra_obj.cantidad
             producto.stock += int(cantidad_comprada)  # Asegurarse de convertir la cantidad a entero
             producto.save()
+            
+            messages.success(request, ' Detalle Compra creado exitosamente.')
 
             return redirect('detallecompra')
     else:
@@ -124,6 +136,8 @@ def detallecompra_listar(request):
     }
     return render(request,"detallecompra/listar.html", context)
 
+
+
 def detallecompra_modificar(request,pk):
     titulo="Detallecompra"
     detallecompra= Detallecompra.objects.get(id=pk)
@@ -131,10 +145,15 @@ def detallecompra_modificar(request,pk):
     if request.method=='POST':
         form= DetallecompraUpdateForm(request.POST, instance=detallecompra)
         if form.is_valid():
-            form.save()
-            return redirect('detallecompra')
+           detallecompra.Precio = form.cleaned_data['precio_edit']
+           form.save()
+           messages.success(request, ' Detalle Compra modificado exitosamente.')
+
+           return redirect('detallecompra')
     else:
         form= DetallecompraUpdateForm(instance=detallecompra)
+        form.fields['precio_edit'].initial = "{:,.0f}".format(detallecompra.Precio)
+
         productos_activos = Producto.objects.filter(estado='1')  # Obtener solo los productos activos
         form.fields['producto'].queryset = productos_activos
         compra_activos = Compra.objects.filter(estado='1') 
@@ -144,6 +163,7 @@ def detallecompra_modificar(request,pk):
             "form":form
                 }
         return render(request,"detallecompra/modificar.html", context)
+        
 
 def detallecompra_eliminar(request,pk):
     detallecompra= Detallecompra.objects.filter(id=pk)
