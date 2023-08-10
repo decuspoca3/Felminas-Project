@@ -3,6 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from producto.models import Producto
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 class ProductoForm(ModelForm):
     precio_str = forms.CharField(label="Precio", max_length=20)
@@ -20,10 +21,16 @@ class ProductoForm(ModelForm):
             return precio_decimal
         except ValueError:
             raise forms.ValidationError("Asegúrese de ingresar un valor numérico válido.")
+    
+    def clean_stock(self):
+        stock = self.cleaned_data.get('stock')
+        if stock < 0:
+            self.add_error('stock', "El valor del stock debe ser un número positivo.")
+        return stock
 
 class ProductoUpdateForm(ModelForm):
     precio_edit = forms.CharField(
-        label="Precio Edición",
+        label="Precio",
         max_length=20,
         widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: 980.000'})
     )
@@ -42,4 +49,9 @@ class ProductoUpdateForm(ModelForm):
             return precio_decimal
         except (ValueError, TypeError):
             raise ValidationError("Precio no válido. Asegúrese de que no hayan más de 2 decimales.")
-
+        
+    def clean_stock(self):
+        stock = self.cleaned_data.get('stock')
+        if stock < 0:
+            self.add_error('stock', "El valor del stock debe ser un número positivo.")
+        return stock
