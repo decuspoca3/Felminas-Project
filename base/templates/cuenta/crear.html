@@ -1,0 +1,22 @@
+{% extends 'partials/body.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block contenido %}
+
+<div class=" container " style="color: aliceblue; background-color: black; border-radius: 11px;">
+    <h2><a href="{% url 'index' %}"style="text-decoration: none; color: #f5d949;">Felminas</a>/<a href="{% url 'cuenta' %}" style="text-decoration: none; color: #f5d949;">Cuenta</a>/<a href="{% url 'cuenta-crear' %}" style="text-decoration: none; color: #f5d949;">Crear</a></h2>
+
+    <div class="" style="padding: 1% 0% 1% 2% /*background-color: #212529;*/" >
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+
+    </div>
+    <div style="padding: 0% 0% 4% 2%">
+        <input  class="w-25 btn btn-warning border border-4 border border-aliceblue" style="font-family: 'Libre Franklin', sans-serif;"type="submit" value="Agregar {{titulo}}">
+        <a href="{% url 'cuenta' %}" class="w-25  btn btn-outline-danger " style="height: 45px; font-family: 'Libre Franklin', sans-serif; "> Cancelar {{titulo}}</a>
+    </div>
+    </form>
+</div>
+{% endblock contenido %}
