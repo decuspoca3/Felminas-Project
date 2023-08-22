@@ -4,7 +4,9 @@ from producto.forms import ProductoForm, ProductoUpdateForm
 from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
 import os
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+@login_required()
 def producto_crear(request):
     titulo = "Producto"
     if request.method == 'POST':
@@ -28,6 +30,7 @@ def producto_crear(request):
     }
     return render(request, "producto/crear.html", context)
 
+@login_required()
 def producto_modificar(request, pk):
     titulo = "Producto"
     producto = Producto.objects.get(id=pk)
@@ -70,7 +73,7 @@ def hacer_backup(request):
 
 
 
-
+@login_required()
 def producto_listar(request):
     titulo = "Producto"
     productos = Producto.objects.all()

@@ -1,13 +1,11 @@
 from django.db import models
-
 from django.utils.translation import gettext_lazy as _
-# Create your models here.
 from usuario.models import Usuario
 import uuid
 from decimal import Decimal
 import locale
 
-
+# Create your models here.
 class Compra(models.Model):
     fecha = models.DateField(verbose_name="Fecha", help_text="MM/DD/AAAA")
     numero_serie = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
@@ -30,7 +28,7 @@ class Compra(models.Model):
 
    
 class Detallecompra(models.Model):
-    cantidad = models.CharField(max_length=45, verbose_name="cantidad")
+    cantidad =  models.IntegerField( verbose_name="cantidad")
     valortotal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="valor total", null=True, blank=True)
     compras = models.ForeignKey("compra.Compra", on_delete=models.CASCADE, verbose_name="Compra")
     producto = models.ForeignKey("producto.Producto", on_delete=models.CASCADE, verbose_name="Producto")

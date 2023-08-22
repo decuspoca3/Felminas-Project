@@ -98,16 +98,17 @@
           <td>{{ producto.marca }}</td>
           <td>{{ producto.stock }}</td>
           <td>{{ producto.precio_colombiano }}</td>
-          <td>{{ producto.estado }}</td>
+          <td>Activo</td>
           <td>
+            {% if user.rol == "Admin" %}
+
             <button
               class="bton_eliminar"
-              data-bs-toggle="modal"
-              data-bs-target="#modalConf"
+              
             >
               <a
                 class="btn btn-danger"
-                href="{% url 'producto-eliminar' producto.id %}"
+                href="{% url 'producto-eliminar' producto.id %}" onclick="return confirm('¿Está seguro de eliminar {{ titulo|lower }}?')"
               >
                 <svg
                   viewBox="0 0 15 17.5"
@@ -147,6 +148,8 @@
                 </svg>
               </a>
             </button>
+            {% endif %}
+
           </td>
         </tr>
         {% endif %} {% endfor %}

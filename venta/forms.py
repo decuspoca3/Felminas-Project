@@ -6,6 +6,8 @@ class VentaForm(ModelForm):
     class Meta:
         model = venta
         fields = "__all__"
+        exclude = ["estado"]
+
         
         widgets={
             'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
@@ -34,4 +36,6 @@ class DetalleventaUpdateForm(ModelForm):
     
     class Meta:
         model = Detalleventa
-        fields = "__all__"      
+        fields = "__all__"
+        exclude = ["estado"]
+      

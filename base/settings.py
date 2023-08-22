@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'producto',
     'venta',
     'compra',
-    'accounts',
+    'cuenta',
     'django_bootstrap5', #pip install django-bootstrap5
     'crispy_forms', #pip install django-crispy-forms
     'crispy_bootstrap5', #pip install crispy-bootstrap5
@@ -150,14 +150,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'felminasogamoso@gmail.com'  # Tu dirección de correo electrónico
-EMAIL_HOST_PASSWORD = 'lbxavigxjepopmjy'  # Tu contraseña de correo electrónico
+EMAIL_HOST_PASSWORD = 'vakudacbtlqcybwg'  # Tu contraseña de correo electrónico
 EMAIL_USE_TLS = True
-# settings.py
 
 # Configuración para las credenciales de OAuth 2.0
 GOOGLE_CLIENT_ID = '589772868494-v9in1bhtqtfa76l7efms3hpkrb8oj6kg.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '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'
-GOOGLE_REDIRECT_URI = 'http://localhost:8000/google-auth-callback'  # Esta es la URL a la que redirigirá Google después de autorizar la aplicación
+GOOGLE_REDIRECT_URI = 'http://localhost:8000/google-auth-callback'
+  # Esta es la URL a la que redirigirá Google después de autorizar la aplicación
 
 # Resto de la configuración de Django...
 
@@ -178,3 +178,6 @@ DBBACKUP_STORAGE_OPTIONS = {
 
 LANGUAGE_CODE = 'es-CO'  # Código de idioma y ubicación de Colombia
 USE_L10N = True  
+
+
+AUTH_USER_MODEL = 'cuenta.Cuenta'

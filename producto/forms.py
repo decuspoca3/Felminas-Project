@@ -6,16 +6,16 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 
 class ProductoForm(ModelForm):
-    precio_str = forms.CharField(label="Precio", max_length=20)
+    precio_str = forms.CharField(label="Precio Unitario", max_length=20)
 
     class Meta:
         model = Producto
         fields = "__all__"
-        exclude = ['precio']
+        exclude = ['precio','estado'] 
 
     def clean_precio_str(self):
         precio_str = self.cleaned_data['precio_str']
-        precio_str = precio_str.replace(",", "")
+        precio_str = precio_str.replace(",", "").replace(".", "")  # Remover comas y puntos
         try:
             precio_decimal = float(precio_str)
             return precio_decimal
@@ -30,14 +30,14 @@ class ProductoForm(ModelForm):
 
 class ProductoUpdateForm(ModelForm):
     precio_edit = forms.CharField(
-        label="Precio",
+        label="Precio Unitario",
         max_length=20,
         widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: 980.000'})
     )
 
     class Meta:
         model = Producto
-        exclude = ['precio']
+        exclude = ['precio' ,'estado']
         fields = "__all__"
 
     def clean_precio_edit(self):

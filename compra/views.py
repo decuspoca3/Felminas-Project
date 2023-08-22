@@ -7,6 +7,7 @@ from dbbackup.management.commands.dbbackup import Command as DbBackupCommand
 from dbbackup.management.commands.dbrestore import Command as DbRestoreCommand
 import os
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def hacer_backup_compra(request):
@@ -31,6 +32,7 @@ def hacer_restore_detallecompra(request):
     return JsonResponse({'success': True, 'message': 'Restauración de copia de seguridad realizada correctamente.'})
 
 
+@login_required()
 def compra_crear(request):
     titulo="Compra"
     if request.method=='POST':
@@ -53,6 +55,8 @@ def compra_crear(request):
     }       
     return render(request,"compra/crear.html",context)
 
+
+@login_required()
 def compra_listar(request):
     titulo="Compra"
     compra= Compra.objects.all()
@@ -62,6 +66,7 @@ def compra_listar(request):
     }
     return render(request,"compra/listar.html", context)
 
+@login_required()
 def compra_modificar(request,pk):
     titulo="Compra"
     compra= Compra.objects.get(id=pk)
@@ -93,7 +98,7 @@ def compra_eliminar(request,pk):
     )
     return redirect('compra')
 
-
+@login_required()
 def detallecompra_crear(request):
     titulo = "Detallecompra"
     if request.method == 'POST':
@@ -127,6 +132,7 @@ def detallecompra_crear(request):
     }
     return render(request, "detallecompra/crear.html", context)
 
+@login_required()
 def detallecompra_listar(request):
     titulo="Detallecompra"
     detallecompra= Detallecompra.objects.all()
@@ -137,7 +143,7 @@ def detallecompra_listar(request):
     return render(request,"detallecompra/listar.html", context)
 
 
-
+@login_required()
 def detallecompra_modificar(request,pk):
     titulo="Detallecompra"
     detallecompra= Detallecompra.objects.get(id=pk)

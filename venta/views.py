@@ -10,6 +10,7 @@ from dbbackup.management.commands.dbrestore import Command as DbRestoreCommand
 from django.core.management import call_command
 from django.http import JsonResponse
 from decimal import Decimal
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -63,6 +64,7 @@ def vender_producto(request, producto_id):
 
     return render(request, 'form_venta.html', {'producto': producto})
 
+@login_required()
 def venta_crear(request):
     titulo = "Venta"
     if request.method == 'POST':
@@ -85,6 +87,7 @@ def venta_crear(request):
     }
     return render(request, "venta/crear.html", context)
 
+@login_required()
 def venta_listar(request):
     titulo = "venta"
     ventas = venta.objects.all()
@@ -94,6 +97,7 @@ def venta_listar(request):
     }
     return render(request, "venta/listar.html", context)
 
+@login_required()
 def venta_modificar(request, pk):
     titulo = "venta"
     venta_obj = venta.objects.get(id=pk)
@@ -125,7 +129,7 @@ def venta_eliminar(request, pk):
     return redirect('venta')
 
 
-
+@login_required()
 def detalleventa_crear(request):
     titulo = "Detalleventa"
     if request.method == 'POST':
@@ -162,7 +166,7 @@ def detalleventa_crear(request):
 
 
 
-
+@login_required()
 def detalleventa_listar(request):
     titulo = "Detalleventa"
     detalleventa = Detalleventa.objects.all()
@@ -172,6 +176,7 @@ def detalleventa_listar(request):
     }
     return render(request, "detalleventa/listar.html", context)
 
+@login_required()
 def detalleventa_modificar(request, pk):
     titulo = "Detalleventa"
     detalleventa = Detalleventa.objects.get(id=pk)
