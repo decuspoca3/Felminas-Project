@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.decorators import login_required
 from usuario.models import Usuario
 
-
+@login_required()
 def cuenta_crear(request):
     titulo = "Cuenta"
     if request.method == 'POST':
@@ -67,7 +67,7 @@ def cuenta_listar(request):
     
     }
     return render(request,"cuenta/listar.html", context)
-
+@login_required()
 def cuenta_modificar(request,pk):
     titulo="Cuenta"
     cuenta= Cuenta.objects.get(id=pk)
@@ -84,7 +84,7 @@ def cuenta_modificar(request,pk):
         "form":form
     }
     return render(request,"cuenta/modificar.html", context)
-
+@login_required()
 def cuenta_eliminar(request,pk): 
     cuenta= Cuenta.objects.filter(id=pk)
     cuenta.delete()

@@ -84,12 +84,11 @@
             {% if user.rol == "Admin" %}
             <button
               class="bton_eliminar"
-              data-bs-toggle="modal"
-              data-bs-target="#modalConf"
+              
             >
               <a
                 class="btn btn-danger"
-                href="{% url 'cuenta-eliminar' cuenta.id %}"
+                href="{% url 'cuenta-eliminar' cuenta.id %}"onclick="return confirm('¿Está seguro de eliminar {{ titulo|lower }}?')"
               >
                 <svg
                   viewBox="0 0 15 17.5"

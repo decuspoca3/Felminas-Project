@@ -829,7 +829,9 @@ div#div_id_primer_nombre{
   transform: translateX(-50%) translateY(50%);
 }
 
-
+body{
+  overflow-x: hidden;
+}
 
 
 

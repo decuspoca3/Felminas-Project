@@ -28,7 +28,7 @@ class Producto(models.Model):
     estado = models.CharField(max_length=2, choices=Estado.choices, default=Estado.ACTIVO, verbose_name=_("Estado"))
 
     def __str__(self):
-        return f"{self.nombre} ,Stock: {self.stock} "
+        return f"{self.nombre}"
     
     def precio_colombiano(self):
         formatted_price = "{:,.2f}".format(self.precio).replace(',', '#').replace('.', ',').replace('#', '.')
