@@ -133,6 +133,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS= [
     os.path.join(BASE_DIR,"static"),
+    ('node_modules', os.path.join(BASE_DIR, 'node_modules/')),
 ]
 STATIC_ROOT ="/static"
 
@@ -149,7 +150,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'felminasogamoso@gmail.com'  # Tu dirección de correo electrónico
-EMAIL_HOST_PASSWORD = 'lbxavigxjepopmjy'  # Tu contraseña de correo electrónico
+EMAIL_HOST_PASSWORD = 'vakudacbtlqcybwg'  # Tu contraseña de correo electrónico
 EMAIL_USE_TLS = True
 # settings.py
 
