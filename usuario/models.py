@@ -17,11 +17,11 @@ class Usuario(models.Model):
         TARJETA='TI',_("Tarjeta de Idetidad")
         CEDULA_EXTRANJERIA='CE',_("Cédula de Extranjería")
 
-    tipo_documento= models.CharField(max_length=2, choices=Tipo_Documento.choices, verbose_name="Tipo de Documento")
+    tipo_documento= models.CharField(max_length=2, choices=Tipo_Documento.choices, verbose_name="Tipo De Documento")
     documento= models.CharField(max_length=20, verbose_name="Documento")
 
-    telefono_contacto=models.CharField(max_length=10, verbose_name="Teléfono de contacto")
-    telefono_personal=models.CharField(max_length=10, verbose_name="Teléfono personal") 
+    telefono_contacto=models.CharField(max_length=10, verbose_name="Teléfono De Contacto")
+    telefono_personal=models.CharField(max_length=10, verbose_name="Teléfono Personal")
 
     class Rol(models.TextChoices):
         EMPLEADO = 'Empleado', _("Empleado")

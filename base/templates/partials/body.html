@@ -11,83 +11,84 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
-<link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <!-- Incluye el plugin slick -->
 
     <link rel="stylesheet" href="{% static 'css/Overlay/OverlayScrollbars.min.css' %}">
     <link href="{% static 'js/DataTables/datatables.min.css' %}" rel="stylesheet"/>
     <!-- libreria sweetalert2 -->
     <link rel="stylesheet" href="{% static 'js/SweetAlert2/sweetalert2.min.css' %}">
-   
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css" />
-    <link rel="stylesheet" href="/static/css/fontello.css ">
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <link rel="stylesheet" href="/static/css/fontello.css">
+
     <title> Felminas - {{ titulo }} </title>
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed" style="background-image: url(/static/img/fondologin.png);">
-       <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"
+      style="background-image: url(/static/img/fondologin.png);">
+<!-- Preloader -->
+<div class="preloader flex-column justify-content-center
        align-items-center">
-     
-   </div>
-    <div class="wrapper">
-        {% include 'partials/header.html' %}
-        {% include 'partials/sidebar.html' %}
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-          <div class="container-fluid">
+
+</div>
+<div class="wrapper">
+    {% include 'partials/header.html' %}
+    {% include 'partials/sidebar.html' %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <div class="container-fluid">
             <!-- Content Header (Page header) -->
-          <div class="content-header">
-              <div class="container-fluid">
-                  <div class="row mb-2">
-                      <div class="col-sm-6" style="padding: 1% 1% 1% 0%;">
-                          
-                      </div><!-- /.col -->
-                  </div><!-- /.row -->
-              </div><!-- /.container-fluid -->
-          </div>
-            <!-- /.content-header -->
-                <section class="content">
-                  
-            {% block contenido %}
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6" style="padding: 1% 1% 1% 0%;">
 
-            {% endblock contenido %}
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
             </div>
+            <!-- /.content-header -->
+            <section class="content">
 
+                {% block contenido %}
 
+                {% endblock contenido %}
+        </div>
 
-    
 
     </div>
 
-        {% include 'partials/modal.html' %}
+    {% include 'partials/modal.html' %}
 
-        {% include 'partials/footer.html' %}
-    </div>
-    
-    
-    {% if messages %}
+    {% include 'partials/footer.html' %}
+</div>
+
+
+{% if messages %}
     {% for message in messages %}
         <script>
             Swal.fire(
-                {position: 'top-end',
-            toast: true,
-            showConfirmButton: false,
-            timer:10000,
-            timerProgressBar: true,
-            background: '#454d55',
-            color: '#ffffff',        
-            icon:'{{ message.tags }}',
-            text:'{{ message }}',
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }        });
+                {
+                    position: 'top-end',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 10000,
+                    timerProgressBar: true,
+                    background: '#454d55',
+                    color: '#ffffff',
+                    icon: '{{ message.tags }}',
+                    text: '{{ message }}',
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
         </script>
     {% endfor %}
 {% endif %}
@@ -95,64 +96,71 @@
     <input type="checkbox" id="btn-mas">
     <div class="redes">
         <a href="#" class="icon-help-circled"></a>
-        <a href="#" id="backup-link">  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-database-up" viewBox="0 0 16 16">
-            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0Z"/>
-            <path d="M12.096 6.223A4.92 4.92 0 0 0 13 5.698V7c0 .289-.213.654-.753 1.007a4.493 4.493 0 0 1 1.753.25V4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.525 4.525 0 0 1-.813-.927C8.5 14.992 8.252 15 8 15c-1.464 0-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13h.027a4.552 4.552 0 0 1 0-1H8c-1.464 0-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10c.262 0 .52-.008.774-.024a4.525 4.525 0 0 1 1.102-1.132C9.298 8.944 8.666 9 8 9c-1.464 0-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777ZM3 4c0-.374.356-.875 1.318-1.313C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4Z"/>
-          </svg></a>
-        
+        <a href="#" id="backup-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-database-up"
+                 viewBox="0 0 16 16">
+                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0Z"/>
+                <path d="M12.096 6.223A4.92 4.92 0 0 0 13 5.698V7c0 .289-.213.654-.753 1.007a4.493 4.493 0 0 1 1.753.25V4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.525 4.525 0 0 1-.813-.927C8.5 14.992 8.252 15 8 15c-1.464 0-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13h.027a4.552 4.552 0 0 1 0-1H8c-1.464 0-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10c.262 0 .52-.008.774-.024a4.525 4.525 0 0 1 1.102-1.132C9.298 8.944 8.666 9 8 9c-1.464 0-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777ZM3 4c0-.374.356-.875 1.318-1.313C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4Z"/>
+            </svg>
+        </a>
+        <a href="#"></a>
     </div>
     <div class="btn-mas">
         <label for="btn-mas" class="fa fa-plus"></label>
     </div>
 </div>
 
+<script type="text/javascript" src="{% static 'node_modules/accessibility/dist/main.bundle.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+<script>
+
+    // Obtener el token CSRF desde las cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Buscar el nombre del token CSRF
+                if (cookie.substring(0, name.length + 1) === name + '=') {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Esperar a que el documento esté listo
+    $(document).ready(function () {
+        // Capturar el evento click del enlace
+        $("#backup-link").click(function (event) {
+            // Prevenir que el enlace realice su acción por defecto
+            event.preventDefault();
+
+            // Obtener el token CSRF
+            const csrftoken = getCookie('csrftoken');
+
+            // Realizar la solicitud POST para hacer el backup, incluyendo el token CSRF
+            $.ajax({
+                url: "{% url 'hacer_backup' %}",
+                type: "POST",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (data) {
+                    console.log("Backup realizado correctamente");
+                },
+                error: function (xhr, textStatus, error) {
+                    console.error("Error al realizar el backup:", error);
+                },
+            });
+        });
+    });
+
+</script>
+
 </body>
 
 </html>
-<script type="text/javascript" src="node_modules/accessibility/dist/main.bundle.js"></script>
-<script>
-  
-    // Obtener el token CSRF desde las cookies
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Buscar el nombre del token CSRF
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-  
-    // Esperar a que el documento esté listo
-    $(document).ready(function () {
-      // Capturar el evento click del enlace
-      $("#backup-link").click(function (event) {
-        // Prevenir que el enlace realice su acción por defecto
-        event.preventDefault();
-  
-        // Obtener el token CSRF
-        const csrftoken = getCookie('csrftoken');
-  
-        // Realizar la solicitud POST para hacer el backup, incluyendo el token CSRF
-        $.ajax({
-          url: "{% url 'hacer_backup' %}",
-          type: "POST",
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-          },
-          success: function (data) {
-            console.log("Backup realizado correctamente");
-          },
-          error: function (xhr, textStatus, error) {
-            console.error("Error al realizar el backup:", error);
-          },
-        });
-      });
-    });
-  </script>

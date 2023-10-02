@@ -16,21 +16,76 @@
       <a href="#" style="text-decoration: none; color: yellow">Modificar</a></h6>
     </div>
 </div>
-<div class=" container " style="color: aliceblue; background-color: black; border-radius: 11px;">
+<div class=" container " style="color: aliceblue; border-radius: 11px;">
 
-    <div class="" style="padding: 1% 0% 0% 2% /*background-color: #212529;*/" >
+    <div class="" style="" >
 
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{form|crispy}}
-        </div>
-            <div style="padding: 0% 0% 2% 2%">
-             
-                <input  class="w-25 btn btn-warning border border-4 border border-aliceblue" style="font-family: 'Libre Franklin', sans-serif;"  type="submit" value="Modificar {{titulo}}">
+        <form action="" class="for" method="POST">
 
-                <a href="{% url 'usuario' %}" class="w-25  btn btn-outline-danger " style="height: 45px; font-family: 'Libre Franklin', sans-serif; "> Cancelar </a>
+             <div class="row">
+                    <div class="col">
+                      {% csrf_token %}
+                        {{form.primer_nombre|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{form.segundo_nombre|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                      {% csrf_token %}
+                        {{form.primer_apellido|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{form.segundo_apellido|as_crispy_field}}
+                    </div>
+                </div>
 
-            </div>
+                <div class="row">
+                    <div class="col">
+                      {% csrf_token %}
+                        {{form.tipo_documento|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{form.documento|as_crispy_field}}
+                    </div>
+                </div>
+
+                 <div class="row">
+                    <div class="col">
+                      {% csrf_token %}
+                        {{form.telefono_personal|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{form.telefono_contacto|as_crispy_field}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                      {% csrf_token %}
+                        {{form.rol|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{form.correo|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                        {{form.estado|as_crispy_field}}
+                    </div>
+                </div>
+
+
+                <div style="padding: 3% 5% 2% 5%" class="d-flex justify-content-evenly">
+                    <button class="creats">
+                    <input class="btn"
+                           style="font-family: 'Libre Franklin', sans-serif;" type="submit"
+                           value="Modificar {{titulo}}">
+                    </button>
+
+                    <button class="creatse">
+                        <a href="{% url 'usuario' %}" class="btn"
+                           style="font-family: 'Libre Franklin', sans-serif;"> Cancelar {{ titulo }}</a>
+                    </button>
+
+                </div>
         </form>
     </div>
 {% endblock contenido %}

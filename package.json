@@ -1,5 +1,33 @@
 {
+  "name": "felminas",
+  "version": "1.0.0",
+  "description": "Sistema de Gestion de inventarios",
+  "main": "index.js",
+  "scripts": {
+    "buildcss": "sass --style=compressed resources/scss/:static/css/",
+    "buildjs": "uglifyjs-folder resources/js/ -eo static/js/",
+    "build": "npm run buildcss & npm run buildjs",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "resources"
+      ],
+      "extensions": "js,scss"
+    }
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "bootstrap-icons": "^1.10.4"
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.0",
+    "bootswatch": "^5.3.0",
+    "npm-watch": "^0.11.0",
+    "sass": "^1.63.6",
+    "sass-lint": "^1.13.1",
+    "uglify-js": "^3.17.4",
+    "uglifyjs-folder": "^3.3.0",
+    "accessibility": "^4.5.7"
   }
 }
