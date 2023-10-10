@@ -68,6 +68,7 @@
           <th>Username</th>
           <th>Email</th>
           <th>Rol</th>
+          <th>Persona</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
@@ -79,6 +80,7 @@
           <td>{{cuenta.username}}</td>
           <td>{{cuenta.email}}</td>
           <td>{{cuenta.rol}}</td>
+          <td>{{cuenta.empleado_usuario}}</td>
           <td>Activo</td>
           <td>
             {% if user.rol == "Admin" %}

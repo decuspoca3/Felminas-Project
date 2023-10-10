@@ -13,7 +13,6 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.decorators import login_required
 from usuario.models import Usuario
 
-@login_required()
 def cuenta_crear(request):
     titulo = "Cuenta"
     if request.method == 'POST':

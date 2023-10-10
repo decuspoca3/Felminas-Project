@@ -1,39 +1,101 @@
+from django.core.files.uploadedfile import UploadedFile
 from django.forms import ModelForm, widgets
-from compra.models import Compra ,Detallecompra
+from compra.models import Ficha,Proyecto,Integrantes
+from cuenta.models import Cuenta
 from django import forms
-from django.core.exceptions import ValidationError
 
-class CompraForm(ModelForm):
+#class UsuarioForm(ModelForm):
+    
+ #   class Meta:
+  #      model = Usuario
+  #      fields = "__all__"
+   #     exclude=["estado",]
+        # fields= ["nombre","apellido","documento","tipoDocumento"]
+    #    widgets={
+     #       'fecha_nacimiento': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d')
+      #  }
+        
+   # def clean(self):
+    #    cleaned_data = super().clean()
+     #   documento = cleaned_data.get('documento')
+      #  telefono_contacto = cleaned_data.get('telefono_contacto')
+       # telefono_personal = cleaned_data.get('telefono_personal')
+        #imagen = cleaned_data.get('imagen')
 
-    class Meta:
-        model = Compra
-        fields = "__all__"
-        exclude = ["estado"]
+       # if documento and len(str(documento)) > 12:
+        #    self.add_error('documento', "El documento no puede tener más de 12 dígitos")
+
+        #if telefono_contacto and len(str(telefono_contacto)) > 10:
+         #   self.add_error('telefono_contacto', "El teléfono no puede tener más de 10 dígitos")
+
+        #if telefono_personal and len(str(telefono_personal)) > 10:
+         #   self.add_error('telefono_personal', "El teléfono no puede tener más de 10 dígitos")
+
+        #if imagen and isinstance(imagen, UploadedFile):
+         #   ext = imagen.name.split('.')[-1].lower()
+          #  if ext not in ['jpg', 'png']:
+           #     self.add_error('imagen', "Solo se permiten archivos en formato PNG o JPG.")
 
 
-        widgets={
-            'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
-        }
+   #     return cleaned_data
+    
+    #def __init__(self, *args, **kwargs):
+     #   super(UsuarioForm, self).__init__(*args, **kwargs)
+     #   self.fields["ficha"].queryset = Ficha.objects.filter(estado=Ficha.Estado.ACTIVO)
 
-class CompraUpdateForm(ModelForm):
+#class UsuarioUpdateForm(ModelForm):
+    
+ #   class Meta:
+  #      model = Usuario
+   #     fields = "__all__"
+    #    exclude=["documento","rh","fecha_nacimiento"]
+        
+class FichaForm(ModelForm):
     
     class Meta:
-        model = Compra 
+        model = Ficha
         fields = "__all__"
-        exclude = ["estado"]
+        exclude=["estado",]
+        widgets={
+            'fecha_ingreso': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
+            'fecha_productiva': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
+            'fecha_final': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d')
+            
+        }
 
-class DetallecompraForm(ModelForm):
+class FichaUpdateForm(ModelForm):
+    
+    class Meta:
+        model = Ficha
+        fields = "__all__"
+        exclude=["numero","estado"]
+    
+class ProyectoForm(ModelForm):
+    
+    class Meta:
+        model = Proyecto
+        fields = "__all__"
+        exclude=["estado","Empleado"]
+    def __init__(self, *args, **kwargs):
+        super(ProyectoForm, self).__init__(*args, **kwargs)
+        self.fields["aprendiz"].queryset =Cuenta.objects.filter(estado=Cuenta.Estado.ACTIVO,rol=Cuenta.Rol.ADMIN)
+
+
+class ProyectoUpdateForm(ModelForm):
+    
+    class Meta:
+        model = Proyecto
+        fields = "__all__"
+        exclude=["fecha_creacion","estado"]
+class IntegrantesForm(ModelForm):
+
     precio_str = forms.CharField(label="Precio Unitario", max_length=20)
 
     class Meta:
-        model = Detallecompra
-        exclude = ['valortotal', 'estado', 'Precio']
+        model = Integrantes
         fields = "__all__"
-
-        widgets = {
-            'fecha': widgets.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-        }
-
+        exclude=["estado","grupo","valortotal","Precio"]
+        
     def clean_precio_str(self):
         precio_str = self.cleaned_data['precio_str']
         precio_str = precio_str.replace(",", "").replace(".", "")  # Remover comas y puntos
@@ -42,27 +104,3 @@ class DetallecompraForm(ModelForm):
             return precio_decimal
         except ValueError:
             raise forms.ValidationError("Asegúrese de ingresar un valor numérico válido.")
-
-
-class DetallecompraUpdateForm(ModelForm):
-    precio_edit = forms.CharField(
-        label="Precio Unitario",
-        max_length=20,
-        widget=forms.TextInput(attrs={'placeholder': 'Ejemplo: 980.000'})
-    )
-
-    class Meta:
-        model = Detallecompra
-        fields = "__all__"
-        exclude = ['valortotal', 'estado', 'Precio']
-
-    def clean_precio_edit(self):
-        precio_edit = self.cleaned_data['precio_edit']
-        precio_edit = precio_edit.replace(",", "").replace(".", "").replace(" ", "")  # Remover comas, puntos y espacios
-        try:
-            precio_decimal = round(float(precio_edit), 2)
-            if precio_decimal < 0:
-                raise ValidationError("El precio debe ser mayor o igual a cero.")
-            return precio_decimal
-        except (ValueError, TypeError):
-            raise ValidationError("Precio no válido. Asegúrese de que no hayan más de 2 decimales.")

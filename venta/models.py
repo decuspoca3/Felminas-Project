@@ -1,63 +1,78 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from producto.models import Producto
-from usuario.models import Usuario
-from django.db.models import Sum
+from cuenta.models import Cuenta
+from  producto.models import Producto
 import uuid
 from decimal import Decimal
 import locale
+from django.db.models import Sum 
+from django.core.exceptions import ValidationError
 
 
-class venta(models.Model):
-    numero_serie = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
-    cliente_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ventas_realizadas',verbose_name=_("Cliente"))
-    empleado_id = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='ventas_atendidas',verbose_name=_("Empleado")) 
-    fecha = models.DateField(verbose_name="Fecha", help_text="MM/DD/AAAA")
+def validate_positive(value):
+        if value < 1:
+            raise ValidationError("La cantidad debe ser un número positivo.")
+        
 
+
+class Venta(models.Model):
+    nombre= models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
+    aprendiz= models.ForeignKey(Cuenta,verbose_name="Cliente",related_name="Cliente", on_delete=models.CASCADE)
+    Empleado= models.ForeignKey(Cuenta,verbose_name="Empleado", on_delete=models.CASCADE)
+
+    
+    
     class Estado(models.TextChoices):
-        ACTIVA = '1', _("Activa")
-        INACTIVA = '0', _("Inactiva")
-            
-    estado = models.CharField(max_length=1, choices=Estado.choices, default=Estado.ACTIVA, verbose_name="Estado")
-
+        ACTIVO='1',_("Activo")
+        INACTIVO='0',_("Inactivo")
+    estado=models.CharField(max_length=1,choices=Estado.choices,default=Estado.ACTIVO,verbose_name="Estado")
+    fecha_creacion = models.DateField(auto_now=True, verbose_name="Fecha de Creación")
     def __str__(self):
-        return f"Id Venta: {self.id}, Fecha: {self.fecha}, Empleado: {self.empleado_id}, Cliente: {self.cliente_id}"
-  
+        return f"{self.aprendiz}"
 
-   
 
-    class Meta:
-        verbose_name_plural = "ventas"
 
 class Detalleventa(models.Model):
-    cantidad = models.IntegerField()
-    ventas = models.ForeignKey("venta.venta", on_delete=models.CASCADE, verbose_name="Venta")
+    cantidad=models.IntegerField( verbose_name="cantidad", validators=[validate_positive])
+    grupo=models.ForeignKey(Venta,verbose_name="Grupo", on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name="Producto")
-    valortotal = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Valor total", editable=False)
+    Precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio Unitario")
+    valortotal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="valor total", null=True, blank=True)
 
+    
     class Estado(models.TextChoices):
-        ACTIVO = '1', _("Activo")
-        INACTIVO = '0', _("Inactivo")
+        ACTIVO='1',_("Activo")
+        INACTIVO='0',_("Inactivo")
+    estado=models.CharField(max_length=1,choices=Estado.choices,default=Estado.ACTIVO,verbose_name="Estado")
+    
 
-    estado = models.CharField(max_length=1, choices=Estado.choices, default=Estado.ACTIVO, verbose_name="Estado")
-
-    class Meta:
-        verbose_name_plural = "detalleventas" 
-
+    def precio_colombiano(self):
+        formatted_price = "{:,.2f}".format(self.Precio).replace(',', '#').replace('.', ',').replace('#', '.')
+        return f"${formatted_price}"  
+    
+    def save(self, *args, **kwargs):
+    # Asegurarse de que self.cantidad sea un Decimal
+        cantidad_decimal = Decimal(self.cantidad) if self.cantidad else Decimal('0')
+    
+    # Asegurarse de que self.Precio sea un Decimal
+        precio_decimal = self.Precio if isinstance(self.Precio, Decimal) else Decimal(str(self.Precio))
+    
+    # Calcula el valor total multiplicando la cantidad por el precio del producto
+        self.valortotal = cantidad_decimal * precio_decimal
+        super().save(*args, **kwargs)
+    
     def actualizar_stock_producto(self):
         if self.estado == Detalleventa.Estado.ACTIVO:
             producto = self.producto
             producto.stock -= self.cantidad
             producto.save()
-    
-    def save(self, *args, **kwargs):
-        self.valortotal_calculado = self.cantidad * self.producto.precio
-        self.valortotal = self.valortotal_calculado
-        super().save(*args, **kwargs)
-    
+
+    def calcular_total_valores():
+       total = Detalleventa.objects.aggregate(Sum('valortotal'))['valortotal__sum']
+       return total or Decimal(0.0)
+
     @property
     def valortotal_colombiano(self):
         locale.setlocale(locale.LC_ALL, "es_CO.UTF-8")
         formatted_valortotal = locale.currency(self.valortotal, grouping=True, symbol=False)
-        return formatted_valortotal
-   
+        return formatted_valortotal 
