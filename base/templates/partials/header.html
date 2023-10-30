@@ -17,8 +17,10 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">
             <li><a class="dropdown-item " href="{% url 'usuario' %}">Usuario</a></li>
+            {% if user.rol == "Admin" %}
             <li><a class="dropdown-item " href="{% url 'salario' %}">Salario</a></li>
             <li><a class="dropdown-item "href="{% url 'cuenta' %}">Cuenta de Usuario</a></li>
+            {% endif %}
           </ul>
         </div>
         <div class="dropdown ">
@@ -35,22 +37,22 @@
             Ventas
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item " href="{% url 'venta' %}">Venta</a></li>
-            <li><a class="dropdown-item " href="{% url 'detalleventa' %}">Detalle Venta</a></li>
+            <li><a class="dropdown-item " href="{% url 'ventas' %}">Venta</a></li>
           </ul>
         </div>
+        
+        {% if user.rol == "Admin" %}
         <div class="dropdown ">
           <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Compras
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item " href="{% url 'compra' %}">Compra</a></li>
-            <li><a class="dropdown-item " href="{% url 'detallecompra' %}">Detalle Compra</a></li>
+            <li><a class="dropdown-item " href="{% url 'compras' %}">Compra</a></li>
             
            
           </ul>
         </div>
-       
+        {% endif %}
       </ul>
 
 

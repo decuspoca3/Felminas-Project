@@ -24,6 +24,8 @@
 </head>
 
 {% block contenido %}
+{% if user.rol == "Admin" %}
+
 <!-- links para exportar a excel -->
 <div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
   <div class="d-flex justify-content-end">
@@ -68,6 +70,7 @@
           <th>Username</th>
           <th>Email</th>
           <th>Rol</th>
+          <th>Persona</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
@@ -79,6 +82,7 @@
           <td>{{cuenta.username}}</td>
           <td>{{cuenta.email}}</td>
           <td>{{cuenta.rol}}</td>
+          <td>{{cuenta.empleado_usuario}}</td>
           <td>Activo</td>
           <td>
             {% if user.rol == "Admin" %}
@@ -114,6 +118,8 @@
     </table>
   </div>
 </div>
+{% endif %}
+
 <script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
 <script src="/static/datatables_custom/popper/popper.min.js"></script>
 <script src="/static/datatables_custom/bootstrap/js/bootstrap.min.js"></script>

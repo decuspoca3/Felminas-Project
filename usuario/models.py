@@ -56,7 +56,7 @@ class Usuario(models.Model):
         verbose_name_plural = "Usuarios"
 
 class Salario(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuario")
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Empleado")
 
     class Nivel(models.TextChoices):
         NIVEL1 = '1', _("Nivel 1")

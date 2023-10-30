@@ -12,8 +12,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.decorators import login_required
 from usuario.models import Usuario
+from django.contrib import messages
 
-@login_required()
 def cuenta_crear(request):
     titulo = "Cuenta"
     if request.method == 'POST':
@@ -44,7 +44,7 @@ def cuenta_crear(request):
                 [user.email],
                 fail_silently=False,
             )
-
+            messages.success(request, 'Cuenta de usuario creado exitosamente.')
             return redirect('cuenta')
     else:
         form = UsuarioCreationForm() 

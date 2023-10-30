@@ -1,0 +1,81 @@
+{% extends 'partials/body.html' %}
+{% load crispy_forms_tags %}
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/datatables_custom/bootstrap/css/bootstrap-grid.min.css">
+    <!-- CSS personalizado --> 
+    
+      
+    <!--datables CSS básico-->
+    <link rel="stylesheet" type="text/css" href="/static/datatables_custom/datatables/datatables.min.css"/>
+    <!--datables estilo bootstrap 4 CSS-->  
+    <link rel="stylesheet"  type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+           
+    <!--font awesome con CDN-->  
+      
+  </head>
+{% block contenido %}
+<div class="container" >
+  <div class=" align-items-center">
+    <div class="col-md">
+        <div class="card p-3">
+            <div class="card-header">
+                <h3 class="card-title">Detalle Venta</h3><br>
+                
+            </div>
+
+            <div class="card-body">
+                <table id="example" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Valor Total Unitario</th>
+                
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detalleventa in detalleventas %}
+                        <tr>
+                            <td>{{detalleventa.cantidad}}</td>
+                            <td>{{detalleventa.grupo}}</td>
+                            <td>{{detalleventa.producto}}</td>
+                            <td>${{detalleventa.valortotal_colombiano}}</td>
+                        </tr>
+                        {% endfor %}
+
+                            <tr>
+                                <td style="text-align: center; border: none;"><b>Total:</b></td> <!-- Deja esta celda en blanco en el pie de la tabla -->
+                                <td style="text-align: center; border: none;"></td> <!-- Deja esta celda en blanco en el pie de la tabla -->
+                                <td style="text-align: center; border: none;"></td>
+                                <td style="text-align: center; border: none;"> <b>${{ total_valores_colombiano }}</b></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>
+<!-- jQuery, Popper.js, Bootstrap JS -->
+<script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
+<script src="/static/datatables_custom/popper/popper.min.js"></script>
+<script src="/static/datatables_custom/bootstrap/js/bootstrap.min.js"></script>
+  
+<!-- datatables JS -->
+<script type="text/javascript" src="datatables/datatables.min.js"></script>    
+ 
+<!-- para usar botones en datatables JS -->  
+<script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>  
+<script src="/static/datatables_custom/datatables/JSZip-2.5.0/jszip.min.js"></script>    
+<script src="/static/datatables_custom/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>    
+<script src="/static/datatables_custom/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+<script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+ 
+<!-- código JS propìo-->    
+<script type="text/javascript" src="/static/datatables_custom/main.js"></script>
+
+
+{% endblock contenido %}

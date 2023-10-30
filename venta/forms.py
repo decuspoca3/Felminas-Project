@@ -1,41 +1,37 @@
-from django.forms import ModelForm, widgets
-from venta.models import venta ,Detalleventa
-
+from django.core.files.uploadedfile import UploadedFile
+from django.forms import ModelForm
+from venta.models import Venta,Detalleventa
+from usuario.models import Usuario
+from django import forms
+from producto.models import Producto
 class VentaForm(ModelForm):
 
+
     class Meta:
-        model = venta
+        model = Venta
         fields = "__all__"
-        exclude = ["estado"]
-
-        
-        widgets={
-            'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
-        }
-
+        exclude=["estado","Empleado"]
+   
+    def __init__(self, *args, **kwargs):
+        super(VentaForm, self).__init__(*args, **kwargs)
+        self.fields["aprendiz"].queryset =Usuario.objects.filter(estado=Usuario.Estado.ACTIVO,rol=Usuario.Rol.CLIENTE)
+   
+   
 class VentaUpdateForm(ModelForm):
     
     class Meta:
-        model = venta
+        model = Venta
         fields = "__all__"
-        exclude=["estado"]
-
+        exclude=["fecha_creacion","estado"]
 
 class DetalleventaForm(ModelForm):
 
     class Meta:
         model = Detalleventa
         fields = "__all__"
-        exclude = ['valortotal', 'estado']
-        
-        widgets={
-            'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
-        }
+        exclude=["estado","grupo","valortotal"]
 
-class DetalleventaUpdateForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(DetalleventaForm, self).__init__(*args, **kwargs)
+        self.fields["producto"].queryset =Producto.objects.filter(estado=Producto.Estado.ACTIVO)
     
-    class Meta:
-        model = Detalleventa
-        fields = "__all__"
-        exclude = ["estado"]
-      

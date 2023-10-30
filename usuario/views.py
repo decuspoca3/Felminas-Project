@@ -23,7 +23,6 @@ def hacer_backup(request):
     return redirect('usuario')
 
 
-@login_required()
 def usuario_crear(request):
     titulo = "Usuario"
     if request.method == 'POST':

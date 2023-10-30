@@ -3,6 +3,8 @@
 
 
 {% block contenido %}
+{% if user.rol == "Admin" %}
+
 <div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
     <div class="d-flex justify-content-end">
     <h6  style="color: aliceblue;"><a href="{% url 'index' %}"style="text-decoration: none; color: yellow">Felminas</a>
@@ -30,6 +32,8 @@
     </div>
     </form>
 </div>
+{% endif %}
+
 {% if messages %}
 <div class="messages">
   {% for message in messages %}
