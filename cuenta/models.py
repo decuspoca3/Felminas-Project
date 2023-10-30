@@ -6,6 +6,7 @@ from usuario.models import Usuario
 class Cuenta(AbstractUser):
     groups = models.ManyToManyField(Group, blank=True, related_name="usuarios")
     user_permissions = models.ManyToManyField(Permission, blank=True, related_name='usuarios')
+    empleado_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     class Rol(models.TextChoices):
         ADMIN = 'Admin', _("Admin")
@@ -25,5 +26,5 @@ class Cuenta(AbstractUser):
 
    
 
-    
+
 

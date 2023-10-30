@@ -7,7 +7,7 @@ from decimal import Decimal
 import locale
 from django.db.models import Sum 
 from django.core.exceptions import ValidationError
-
+from usuario.models import Usuario
 
 def validate_positive(value):
         if value < 1:
@@ -17,7 +17,7 @@ def validate_positive(value):
 
 class Venta(models.Model):
     nombre= models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
-    aprendiz= models.ForeignKey(Cuenta,verbose_name="Cliente",related_name="Cliente", on_delete=models.CASCADE)
+    aprendiz= models.ForeignKey(Usuario,verbose_name="Cliente",related_name="Cliente", on_delete=models.CASCADE)
     Empleado= models.ForeignKey(Cuenta,verbose_name="Empleado", on_delete=models.CASCADE)
 
     
@@ -36,7 +36,6 @@ class Detalleventa(models.Model):
     cantidad=models.IntegerField( verbose_name="cantidad", validators=[validate_positive])
     grupo=models.ForeignKey(Venta,verbose_name="Grupo", on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name="Producto")
-    Precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio Unitario")
     valortotal = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="valor total", null=True, blank=True)
 
     
@@ -54,18 +53,16 @@ class Detalleventa(models.Model):
     # Asegurarse de que self.cantidad sea un Decimal
         cantidad_decimal = Decimal(self.cantidad) if self.cantidad else Decimal('0')
     
-    # Asegurarse de que self.Precio sea un Decimal
-        precio_decimal = self.Precio if isinstance(self.Precio, Decimal) else Decimal(str(self.Precio))
-    
-    # Calcula el valor total multiplicando la cantidad por el precio del producto
-        self.valortotal = cantidad_decimal * precio_decimal
-        super().save(*args, **kwargs)
-    
     def actualizar_stock_producto(self):
         if self.estado == Detalleventa.Estado.ACTIVO:
             producto = self.producto
             producto.stock -= self.cantidad
             producto.save()
+            
+    def save(self, *args, **kwargs):
+        self.valortotal_calculado = self.cantidad * self.producto.precio
+        self.valortotal = self.valortotal_calculado
+        super().save(*args, **kwargs)
 
     def calcular_total_valores():
        total = Detalleventa.objects.aggregate(Sum('valortotal'))['valortotal__sum']

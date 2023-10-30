@@ -63,6 +63,8 @@
     style="width: 100%"
   >
     <div style="padding: 0% 1% 1% 0%">
+      {% if user.rol == "Admin" %}
+
       <button class="creat">
         <a
           href="{% url 'producto-crear' %}"
@@ -70,7 +72,9 @@
           style="font-family: 'Libre Franklin', sans-serif"
           >Crear {{ titulo }}</a
         >
-      </button>
+      </button>        
+       {% endif %}
+
     </div>
 
     <table
@@ -86,7 +90,10 @@
           <th>Stock</th>
           <th>Precio</th>
           <th>Estado</th>
+          {% if user.rol == "Admin" %}
           <th>Acciones</th>
+          {% endif %}
+
         </tr>
       </thead>
       <tbody>
@@ -99,8 +106,9 @@
           <td>{{ producto.stock }}</td>
           <td>{{ producto.precio_colombiano }}</td>
           <td>Activo</td>
+          
+          {% if user.rol == "Admin" %}
           <td>
-            {% if user.rol == "Admin" %}
 
             <button
               class="bton_eliminar"
@@ -148,9 +156,10 @@
                 </svg>
               </a>
             </button>
-            {% endif %}
 
           </td>
+          {% endif %}
+
         </tr>
         {% endif %} {% endfor %}
       </tbody>

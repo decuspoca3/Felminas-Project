@@ -246,11 +246,11 @@ def proyecto_crear(request, pk=0):
                 integrante.grupo_id = pk
                 integrante.Precio = precio_decimal
                 integrante.save()
-                messages.success(request, 'El aprendiz se agregó correctamente.')
+                messages.success(request, 'Detalle Compra se agregó correctamente.')
 
             return redirect('compras-crear', pk)
         else:
-            messages.success(request, 'Error al agregar el aprendiz.')
+           messages.error(request, "Formulario inválido. Verifica los datos ingresados.")
 
     else:
         form_integrante = IntegrantesForm()
