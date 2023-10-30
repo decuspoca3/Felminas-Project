@@ -29,9 +29,8 @@
                     <thead>
                         <tr>
                             <th>Cantidad</th>
-                            <th>Proveedor</th>
+                            <th>Cliente</th>
                             <th>Producto</th>
-                            <th>Precio</th>
                             <th>Valor Total Unitario</th>
                 
                         </tr>
@@ -42,14 +41,12 @@
                             <td>{{detalleventa.cantidad}}</td>
                             <td>{{detalleventa.grupo}}</td>
                             <td>{{detalleventa.producto}}</td>
-                            <td>{{detalleventa.precio_colombiano}}</td>
                             <td>${{detalleventa.valortotal_colombiano}}</td>
                         </tr>
                         {% endfor %}
 
                             <tr>
                                 <td style="text-align: center; border: none;"><b>Total:</b></td> <!-- Deja esta celda en blanco en el pie de la tabla -->
-                                <td style="text-align: center; border: none;"></td> <!-- Deja esta celda en blanco en el pie de la tabla -->
                                 <td style="text-align: center; border: none;"></td> <!-- Deja esta celda en blanco en el pie de la tabla -->
                                 <td style="text-align: center; border: none;"></td>
                                 <td style="text-align: center; border: none;"> <b>${{ total_valores_colombiano }}</b></td>

@@ -10,9 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from decimal import Decimal
 import locale
-
-
-
+from django.db import transaction
+from django.db.models import F
 
 def venta_listar(request):
     titulo="Venta"
@@ -74,10 +73,8 @@ def venta_crear(request, pk=0):
                 messages.success(request, 'Se actualizó la cantidad del producto.')
             else:
                 # Si el producto no existe, crea un nuevo registro
-                precio_decimal = form_detalleventa.cleaned_data['precio_str']
                 detalleventa = form_detalleventa.save(commit=False)
                 detalleventa.grupo_id = pk
-                detalleventa.Precio = precio_decimal
                 detalleventa.save()
                 messages.success(request, 'Detalle venta  se agregó correctamente.')
 
@@ -119,20 +116,39 @@ def venta_modificar(request,pk):
     return render(request,"venta/modificar.html", context)
 
 
-def venta_eliminar(request,pk):
-    venta= Venta.objects.filter(id=pk)
 
-    detalleventa  = Detalleventa.objects.filter(grupo_id=pk)
+   
+def venta_eliminar(request, pk):
+    venta = Venta.objects.filter(id=pk)
+    detalleventas = Detalleventa.objects.filter(grupo_id=pk)
+    productos_sin_stock_suficiente = []
 
-    if not detalleventa:
-        messages.error(request, 'No puedes finalizar la Venta sin un detalle venta. Agrega al menos uno antes de finalizarlo.')
-        return redirect('ventas')
-    venta.update(
-        estado="0"
-    )
-    print(venta[0].estado)
+    if detalleventas:
+        try:
+            with transaction.atomic():
+                for detalleventa in detalleventas:
+                    producto = detalleventa.producto
+                    nueva_cantidad_stock = producto.stock - detalleventa.cantidad
+                    if nueva_cantidad_stock >= 0:
+                        producto.stock = nueva_cantidad_stock
+                        producto.save()
+                    else:
+                        productos_sin_stock_suficiente.append((producto, nueva_cantidad_stock))
+
+                if productos_sin_stock_suficiente:
+                    for producto, cantidad_faltante in productos_sin_stock_suficiente:
+                        error_message = f'Cantidad insuficiente de stock para {producto.nombre}. Stock disponible: {producto.stock}'
+                        messages.error(request, error_message)
+                    return redirect('ventas')
+
+            venta.update(estado="0")  # Cambiar el estado de la venta a "0"
+            return redirect('ventas')
+        except Exception as e:
+            messages.error(request, f'Error al actualizar el stock: {str(e)}')
+    else:
+        messages.error(request, 'No puedes finalizar la venta sin un detalle venta. Agrega al menos uno antes de finalizarla.')
+
     return redirect('ventas')
-
 
 
 def detalleventa_eliminar(request,pk):

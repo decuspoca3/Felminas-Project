@@ -65,7 +65,7 @@
       <td>
         {% if proyecto.estado == "1" %}
                 
-        <a class="btn btn-danger" href="{% url 'compras-eliminar' proyecto.id %}">
+        <a class="btn btn-danger" href="{% url 'compras-eliminar' proyecto.id %}"onclick="return confirm('¿Está seguro de finalizar la {{ titulo|lower }}?')">
             Finalizar
         </a>
     {%else%}
