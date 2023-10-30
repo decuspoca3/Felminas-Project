@@ -6,6 +6,10 @@ from django.shortcuts import render, redirect
 from usuario.models import Usuario, Salario
 from usuario.forms import UsuarioForm, UsuarioUpdateForm, SalarioForm, SalarioUpdateForm
 from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
+
 
 def hacer_backup(request):
     # Ruta donde deseas guardar el archivo de backup (asegúrate de que la carpeta "backups" exista)
@@ -18,21 +22,30 @@ def hacer_backup(request):
 
     return redirect('usuario')
 
-def usuario_crear(request):
-    titulo="Usuario"
-    if request.method== 'POST':
-        form= UsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('usuario')
-    else:
-        form= UsuarioForm()
-    context={
-        "titulo":titulo,
-        "form":form
-    }
-    return render(request,"usuario/crear.html", context )
 
+def usuario_crear(request):
+    titulo = "Usuario"
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, 'Usuario creado exitosamente.')
+                return redirect('usuario')
+            except IntegrityError as e:
+                messages.error(request, 'Error al crear el usuario: {}'.format(str(e)))
+
+    else:
+        form = UsuarioForm()
+
+    context = {
+        "titulo": titulo,
+        "form": form
+    }
+    return render(request, "usuario/crear.html", context)
+
+
+@login_required()
 def usuario_listar(request):
     titulo="Usuario"
     usuarios= Usuario.objects.all()
@@ -42,6 +55,7 @@ def usuario_listar(request):
     }
     return render(request,"usuario/listar.html", context)
 
+@login_required()
 def usuario_modificar(request,pk):
     titulo="Usuario"
     usuario= Usuario.objects.get(id=pk)
@@ -50,7 +64,9 @@ def usuario_modificar(request,pk):
         form= UsuarioUpdateForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-            return redirect('usuario')
+        messages.success(request, 'Usuario modificado exitosamente.')
+
+        return redirect('usuario')
     else:
         form= UsuarioUpdateForm(instance=usuario)
     context={
@@ -66,12 +82,14 @@ def usuario_eliminar(request,pk):
     )
     return redirect('usuario')
 
+@login_required()
 def salario_crear(request):
     titulo = "Salario"
     if request.method == 'POST':
         form = SalarioForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Salario creado exitosamente.')
             return redirect('salario')
     else:
         form = SalarioForm()
@@ -83,6 +101,8 @@ def salario_crear(request):
     }
     return render(request, "salario/crear.html", context)
 
+
+@login_required()
 def salario_listar(request):
     titulo = "Salario"
     salarios = Salario.objects.all()
@@ -92,6 +112,7 @@ def salario_listar(request):
     }
     return render(request, "salario/listar.html", context)
 
+@login_required()
 def salario_modificar(request, pk):
     titulo = "Salario"
     salario = Salario.objects.get(id=pk)
@@ -100,7 +121,9 @@ def salario_modificar(request, pk):
         form = SalarioUpdateForm(request.POST, instance=salario)
         if form.is_valid():
             form.save()
-            return redirect('salario')
+        messages.success(request, 'Salario modificado exitosamente.')
+
+        return redirect('salario')
     else:
         form = SalarioUpdateForm(instance=salario)
         usuarios_activos = Usuario.objects.filter(estado='1', rol=Usuario.Rol.EMPLEADO)  # Obtener solo los usuarios activos
@@ -111,6 +134,7 @@ def salario_modificar(request, pk):
     }
     return render(request, "salario/modificar.html", context)
 
+@login_required()
 def salario_eliminar(request, pk):
     salario = Salario.objects.filter(id=pk)
     salario.update(estado="0")

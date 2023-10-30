@@ -1,7 +1,7 @@
 from django.contrib import admin
-from venta.models import venta , Detalleventa
-
+from venta.models import Detalleventa,Venta
 # Register your models here.
 
-admin.site.register(venta)
+
+admin.site.register(Venta)
 admin.site.register(Detalleventa)

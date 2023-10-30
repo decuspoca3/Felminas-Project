@@ -1,135 +1,132 @@
 {% extends 'partials/body.html' %}
 <head>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/static/datatables_custom/bootstrap/css/bootstrap-grid.min.css">
-    <!-- CSS personalizado -->
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="/static/datatables_custom/datatables/datatables.min.css"/>
-    <!--datables estilo bootstrap 4 CSS-->
-    <link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
-
-    <!--font awesome con CDN-->
-
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/static/datatables_custom/bootstrap/css/bootstrap-grid.min.css">
+  <!-- CSS personalizado --> 
+  <link rel="stylesheet" href="/static/css/style.css">
+    
+  <!--datables CSS básico-->
+  <link rel="stylesheet" type="text/css" href="/static/datatables_custom/datatables/datatables.min.css"/>
+  <!--datables estilo bootstrap 4 CSS-->  
+  <link rel="stylesheet"  type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+         
+  <!--font awesome con CDN-->  
+    
 </head>
 
 {% block contenido %}
-    <div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
-        <div class="d-flex justify-content-end">
-            <h6 style="color: aliceblue;"><a href="{% url 'index' %}" style="text-decoration: none; color: yellow">Felminas</a>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                     class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
-                </svg>
-                <a href="{% url 'usuario' %}" style="text-decoration: none; color: yellow"> Usuario</a>
+<div  class="preloader flex-column justify-content-center  align-items-center">
+  <img class="animation__wobble" src="/static/img/logo.png"
+      alt="AdminLTELogo" height="200"
+      width="200">
+</div>
 
-        </div>
-    </div>
+<div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
+  <div class="d-flex justify-content-end">
+  <h6  style="color: aliceblue;"><a href="{% url 'index' %}"style="text-decoration: none; color: yellow">Felminas</a>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+    </svg>
+    <a href="{% url 'usuario' %}" style="text-decoration: none; color: yellow"> Usuario</a>
+    
+  </div>
+</div>
+ 
+<div class="container">
+<div class="bg-black p-2 text-dark bg-opacity-50  align-items-center " style="width: 100%;" >
+ 
+  <div class="d-flex mb-3" style="padding: 0% 0% 0% 0%">
 
-    <div class="container">
-        <div class="bg-black p-2 text-dark bg-opacity-50  align-items-center " style="width: 100%;">
+      <button class="creat">
+        <a href="{% url 'usuario-crear' %}" class="btn" style="font-family: 'Libre Franklin', sans-serif;"> Crear {{titulo}}</a>
+    </button>
+    
 
-            <div class="d-flex mb-3" style="padding: 0% 0% 0% 0%">
-
-                <div class="p-2">
-                    <button class="creat">
-                        <a href="{% url 'usuario-crear' %}" class="btn"
-                           style="font-family: 'Libre Franklin', sans-serif;"> Crear {{ titulo }}</a>
-                    </button>
-                </div>
-
-                <div class="ms-auto p-2">
-
-                    <a href="{% url 'hacer_backup' %}" class="btn btn-primary me-md-2">Hacer Backup</a>
-                </div>
-            </div>
-
-
-            <table id="example" class="table table-striped table-hover table table-dark">
-                <thead>
-                <tr>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
+    
+</div>
 
 
-                    <th>Tipo de Documento</th>
-                    <th>Documento</th>
-                    <th>Rol</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
 
-                {% for usuario in usuarios %}
-                    {% if usuario.estado != "0" %}
-
-                        <tr>
-                            <td>{{ usuario.primer_nombre }} {{ usuario.segundo_nombre }}</td>
-                            <td>{{ usuario.primer_apellido }} {{ usuario.segundo_apellido }}</td>
-
-
-                            <td>{{ usuario.get_tipo_documento_display }}</td>
-
-                            <td>{{ usuario.documento }}</td>
-                            <td>{{ usuario.rol }}</td>
-                            <td>{{ usuario.estado }}</td>
-
-                            <td>
-                                <button class="bton_eliminar" data-bs-toggle="modal" data-bs-target="#modalConf">
-                                    <a class="btn btn-danger" href="{% url 'usuario-eliminar' usuario.id %}">
-                                        <svg viewBox="0 0 15 17.5" height="17.5" width="15"
-                                             xmlns="http://www.w3.org/2000/svg" class="icons">
-                                            <path transform="translate(-2.5 -1.25)"
-                                                  d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
-                                                  id="Fill"></path>
-                                        </svg>
-                                    </a>
-                                </button>
-
-                                <button class="bton2">
-                                    <a class="btn btn-primary" href="{% url 'usuario-modificar' usuario.id %}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="17.5" width="15"
-                                             fill="currentColor" class="icons2" viewBox="0 0 15 17.5">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                            <path fill-rule="evenodd"
-                                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                        </svg>
-                                    </a>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
-    ...
-
-    <!-- Código JavaScript -->
+<table id="example" class="table table-striped table-hover table table-dark">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Tipo de Documento</th>
+      <th>Documento</th>
+      <th>Rol</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>      
 
 
-    <script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
-    <script src="/static/datatables_custom/popper/popper.min.js"></script>
-    <script src="/static/datatables_custom/bootstrap/js/bootstrap.min.js"></script>
+    {% for usuario in usuarios %}
+    {% if usuario.estado != "0" %}
+    
+    <tr>
+      <td>{{usuario.id}}</td>
+      <td>{{usuario.primer_nombre}} {{usuario.segundo_nombre}}</td>
+      <td>{{usuario.primer_apellido}} {{usuario.segundo_apellido}}</td>
+      <td>{{usuario.get_tipo_documento_display}}</td>
+      <td>{{usuario.documento}}</td>
+      <td>{{usuario.rol}}</td>
+      <td>Activo</td>
+      
+      <td>
+        {% if user.rol == "Admin" %}
 
-    <!-- datatables JS -->
-    <script type="text/javascript" src="datatables/datatables.min.js"></script>
+        <button class="bton_eliminar">
+          <a class="btn btn-danger" href="{% url 'usuario-eliminar' usuario.id %}" onclick="return confirm('¿Está seguro de eliminar {{ titulo|lower }}?')">
+              <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icons">
+                  <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
+              </svg>
+          </a>
+        </button>
+  
+        <button class="bton2">
+          <a class="btn btn-primary" href="{% url 'usuario-modificar' usuario.id %}">
+              <svg xmlns="http://www.w3.org/2000/svg" height="17.5" width="15" fill="currentColor" class="icons2" viewBox="0 0 15 17.5">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              </svg>
+          </a>
+        </button>
+        {% endif %}
 
-    <!-- para usar botones en datatables JS -->
-    <script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
-    <script src="/static/datatables_custom/datatables/JSZip-2.5.0/jszip.min.js"></script>
-    <script src="/static/datatables_custom/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
-    <script src="/static/datatables_custom/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
-    <script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+      </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
 
-    <!-- código JS propìo-->
-    <script type="text/javascript" src="/static/datatables_custom/main.js"></script>
+  </tbody>
+</table>
+
+</div>
+</div>
+
+...
+<div style="padding: 0% 0% 10% 0%"></div>
+<!-- Código JavaScript -->
+
+
+<script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
+<script src="/static/datatables_custom/popper/popper.min.js"></script>
+<script src="/static/datatables_custom/bootstrap/js/bootstrap.min.js"></script>
+   
+<!-- datatables JS -->
+<script type="text/javascript" src="datatables/datatables.min.js"></script>    
+  
+<!-- para usar botones en datatables JS -->  
+<script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>  
+<script src="/static/datatables_custom/datatables/JSZip-2.5.0/jszip.min.js"></script>    
+<script src="/static/datatables_custom/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>    
+<script src="/static/datatables_custom/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+<script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+  
+<!-- código JS propìo-->    
+<script type="text/javascript" src="/static/datatables_custom/main.js"></script>
 
 {% endblock contenido %}

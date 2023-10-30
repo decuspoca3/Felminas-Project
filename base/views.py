@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from base import settings
+
 @login_required()
-
-
 def principal(request):
     titulo="Inicio"
     context={

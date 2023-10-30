@@ -1,4 +1,3 @@
-
 input::placeholder {
   color: black;
   font-size: 1.2em;
@@ -186,14 +185,13 @@ footer {
   z-index: -1;
 }
 
-
 #btn-mas {
   display: none;
 }
 .conta {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
 }
 .redes a,
 .btn-mas label {
@@ -264,9 +262,39 @@ footer {
     align-items: center;
   }
   
-  
-  
- 
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    
+}
+
+.preloader img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.animation__wobble {
+  /* Tus otros estilos aquí */
+  animation: wobble 8s infinite; /* 5 segundos de duración */
+}
+
+@keyframes wobble {
+  0%, 100% {
+      transform: translateX(0%);
+  }
+  15% {
+      transform: translateX(-25%) rotate(-5deg);
+  }
+  /* Otros porcentajes de la animación */
+}
+
   
 
 
@@ -308,9 +336,8 @@ footer {
   padding: 0 .2em;
   color: #f9c90a;
  }
- 
 
- /*input se correo*/
+  /*input de correo*/
 .inp {
   position: relative;
  }
@@ -346,7 +373,72 @@ footer {
   padding: 0 .2em;
   color: #f9c90a;
  }
- /*input se correo*/
+ /*input de correo*/
+
+
+ /* boton de iniciar sesion*/
+ .botto {
+   --primary-color: #000;
+   --secondary-color: #fff;
+   --hover-color: #f9c90a ;
+   --arrow-width: 10px;
+   --arrow-stroke: 2px;
+   box-sizing: border-box;
+   border: 0;
+   border-radius: 20px;
+   color: var(--secondary-color);
+   padding: 1em 1.8em;
+   background: var(--primary-color);
+   display: flex;
+   transition: 0.2s background;
+   align-items: center;
+   gap: 0.6em;
+   font-weight: bold;
+ }
+ 
+ .botto .arrow-wrapper {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .botto .arrow {
+   margin-top: 1px;
+   width: var(--arrow-width);
+   background: var(--primary-color);
+   height: var(--arrow-stroke);
+   position: relative;
+   transition: 0.2s;
+ }
+ 
+ .botto .arrow::before {
+   content: "";
+   box-sizing: border-box;
+   position: absolute;
+   border: solid var(--secondary-color);
+   border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+   display: inline-block;
+   top: -3px;
+   right: 3px;
+   transition: 0.2s;
+   padding: 3px;
+   transform: rotate(-45deg);
+ }
+ 
+ .botto:hover {
+   background-color: var(--hover-color);
+ }
+ 
+ .botto:hover .arrow {
+   background: var(--secondary-color);
+ }
+ 
+ .botto:hover .arrow:before {
+   right: 0;
+ }
+ /*inicio sesio*/
+
+
 
 /* boton de enviar*/
  .butt {
@@ -475,80 +567,6 @@ footer {
  }
  /*volver al inicio*/
 
-
-
-
-
-
-
-
-
-
-
-
-
- 
- /* boton de iniciar sesion*/
- .botto {
-   --primary-color: #000;
-   --secondary-color: #fff;
-   --hover-color: #f9c90a ;
-   --arrow-width: 10px;
-   --arrow-stroke: 2px;
-   box-sizing: border-box;
-   border: 0;
-   border-radius: 20px;
-   color: var(--secondary-color);
-   padding: 1em 1.8em;
-   background: var(--primary-color);
-   display: flex;
-   transition: 0.2s background;
-   align-items: center;
-   gap: 0.6em;
-   font-weight: bold;
- }
- 
- .botto .arrow-wrapper {
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
- 
- .botto .arrow {
-   margin-top: 1px;
-   width: var(--arrow-width);
-   background: var(--primary-color);
-   height: var(--arrow-stroke);
-   position: relative;
-   transition: 0.2s;
- }
- 
- .botto .arrow::before {
-   content: "";
-   box-sizing: border-box;
-   position: absolute;
-   border: solid var(--secondary-color);
-   border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
-   display: inline-block;
-   top: -3px;
-   right: 3px;
-   transition: 0.2s;
-   padding: 3px;
-   transform: rotate(-45deg);
- }
- 
- .botto:hover {
-   background-color: var(--hover-color);
- }
- 
- .botto:hover .arrow {
-   background: var(--secondary-color);
- }
- 
- .botto:hover .arrow:before {
-   right: 0;
- }
- /*inicio sesio*/
 
 
  /*boton de eliminar*/
@@ -971,10 +989,15 @@ div#div_id_primer_nombre{
   transform: translate(360px, 0);
 }
 .derecha{
+
   position: relative;
   left: 50%;
   top: -1.8cm;
   transform: translateX(-50%) translateY(50%);
+}
+
+body{
+  overflow-x: hidden;
 }
 
 /*boton de crear formuario*/
@@ -1025,3 +1048,11 @@ div#div_id_primer_nombre{
   border: 3px solid var(--main-color);
   box-shadow: 6px 6px var(--main-color);
 }
+
+
+
+
+
+
+
+

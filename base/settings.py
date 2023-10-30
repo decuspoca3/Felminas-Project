@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'producto',
     'venta',
     'compra',
+    'cuenta',
     'django_bootstrap5', #pip install django-bootstrap5
     'crispy_forms', #pip install django-crispy-forms
     'crispy_bootstrap5', #pip install crispy-bootstrap5
@@ -133,7 +134,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS= [
     os.path.join(BASE_DIR,"static"),
-    ('node_modules', os.path.join(BASE_DIR, 'node_modules/')),
+    os.path.join(BASE_DIR,"node_modules"),
 ]
 STATIC_ROOT ="/static"
 
@@ -152,12 +153,12 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'felminasogamoso@gmail.com'  # Tu dirección de correo electrónico
 EMAIL_HOST_PASSWORD = 'vakudacbtlqcybwg'  # Tu contraseña de correo electrónico
 EMAIL_USE_TLS = True
-# settings.py
 
 # Configuración para las credenciales de OAuth 2.0
 GOOGLE_CLIENT_ID = '589772868494-v9in1bhtqtfa76l7efms3hpkrb8oj6kg.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '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'
-GOOGLE_REDIRECT_URI = 'http://localhost:8000/google-auth-callback'  # Esta es la URL a la que redirigirá Google después de autorizar la aplicación
+GOOGLE_REDIRECT_URI = 'http://localhost:8000/google-auth-callback'
+  # Esta es la URL a la que redirigirá Google después de autorizar la aplicación
 
 # Resto de la configuración de Django...
 
@@ -176,3 +177,8 @@ DBBACKUP_STORAGE_OPTIONS = {
     'location': BASE_DIR / 'base' / 'backups/'
 }
 
+LANGUAGE_CODE = 'es-CO'  # Código de idioma y ubicación de Colombia
+USE_L10N = True  
+
+
+AUTH_USER_MODEL = 'cuenta.Cuenta'

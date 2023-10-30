@@ -1,14 +1,24 @@
+
 from django.db import models
 from django.db.models import Sum
-from compra.models import Detallecompra
+from compra.models import Integrantes
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
+import re
+
+# Create your models here.
+
+
+def letras_validator(value):
+    if not re.match("^[A-Za-zÁÉÍÓÚáéíóú ]+$", value):
+        raise ValidationError('Este campo solo debe contener letras.')
 
 class Producto(models.Model):
-    nombre = models.CharField(max_length=45, verbose_name=_("Nombre"))
-    descripcion = models.CharField(max_length=60, verbose_name=_("Descripcion"))
-    marca = models.CharField(max_length=30, verbose_name=_("Marca"))
-    precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Precio"))
-    stock = models.IntegerField(verbose_name=_("Stock"))
+    nombre = models.CharField(max_length=45, verbose_name=_("Nombre"), validators=[letras_validator])
+    descripcion = models.CharField(max_length=60, verbose_name=_("Descripcion"), validators=[letras_validator])
+    marca = models.CharField(max_length=30, verbose_name=_("Marca"), validators=[letras_validator])
+    precio = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Precio"))
+    stock = models.PositiveIntegerField(verbose_name=_("Stock"))
     
     class Estado(models.TextChoices):
         ACTIVO = '1', _("Activo")
@@ -18,20 +28,10 @@ class Producto(models.Model):
     estado = models.CharField(max_length=2, choices=Estado.choices, default=Estado.ACTIVO, verbose_name=_("Estado"))
 
     def __str__(self):
-        return f"Producto: {self.nombre} ,Stock: {self.stock} "
+        return f"{self.nombre}"
     
-    def actualizar_stock(self):
-        # Obtener la suma total de la cantidad comprada en Detallecompra
-        total_comprado = Detallecompra.objects.filter(producto=self, compras__estado='1').aggregate(total=Sum('cantidad'))['total']
+    def precio_colombiano(self):
+        formatted_price = "{:,.2f}".format(self.precio).replace(',', '#').replace('.', ',').replace('#', '.')
+        return f"${formatted_price}"
 
-        # Obtener la suma total de la cantidad vendida en Detalleventa
-        total_vendido = self.detalleventa_set.filter(ventas__estado='1').aggregate(total=Sum('cantidad'))['total']
-
-        # Calcular el stock actual (stock + compras - ventas)
-        stock_actual = self.stock + (total_comprado or 0) - (total_vendido or 0)
-
-        # Actualizar el valor de stock en el modelo
-        self.stock = stock_actual
-        self.save()
-
-        return stock_actual
+  

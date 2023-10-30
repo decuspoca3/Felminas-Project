@@ -8,8 +8,7 @@ class UsuarioForm(ModelForm):
         fields = "__all__"
 
         widgets={
-            'fecha_nacimiento': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d'),
-
+            'fecha_nacimiento': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d')
         }
 
 class UsuarioUpdateForm(ModelForm):
@@ -17,13 +16,15 @@ class UsuarioUpdateForm(ModelForm):
     class Meta:
         model = Usuario
         fields = "__all__"
-        exclude = ["fecha_nacimiento"]
+        exclude = ["documento"]
 
 class SalarioForm(ModelForm):
 
     class Meta:
         model = Salario
         fields = "__all__"
+        exclude = ["estado"]
+
         widgets={
             'fecha': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d')
         }
@@ -33,3 +34,5 @@ class SalarioUpdateForm(ModelForm):
     class Meta:
         model = Salario
         fields = "__all__"
+        exclude = ["estado"]
+

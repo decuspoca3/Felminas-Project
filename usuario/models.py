@@ -1,27 +1,37 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.utils.translation import gettext_lazy as _
-# Create your models here.
-class Usuario(models.Model):
-    primer_nombre= models.CharField(max_length=30, verbose_name="Primer Nombre")
-    segundo_nombre= models.CharField(max_length=30, verbose_name="Segundo Nombre")
+from django.core.exceptions import ValidationError
+import re
+from django.core.validators import RegexValidator
 
-    primer_apellido= models.CharField(max_length=30, verbose_name="Primer Apellido")
-    segundo_apellido= models.CharField(max_length=30, verbose_name="Segundo Apellido")
+def letras_validator(value):
+    if not re.match("^[A-Za-zÁÉÍÓÚáéíóú ]+$", value):
+        raise ValidationError('Este campo solo debe contener letras.')
+    
+def numeros_validator(value):
+    if not re.match("^[0-9]+$", value):
+        raise ValidationError('Este campo solo debe contener números.')
+
+def unique_documento_validator(value):
+    if Usuario.objects.filter(documento=value).exists():
+           raise ValidationError('Este documento ya está registrado.')    
+    
+class Usuario(models.Model):
+    primer_nombre = models.CharField(max_length=45, verbose_name=_("Primer Nombre"), validators=[letras_validator])
+    segundo_nombre = models.CharField(max_length=45, verbose_name=_("Segundo Nombre"), validators=[letras_validator])
+    primer_apellido = models.CharField(max_length=45, verbose_name=_("Primer Apellido"), validators=[letras_validator])
+    segundo_apellido = models.CharField(max_length=45, verbose_name=_("Segundo Apellido"), validators=[letras_validator])
 
     class Tipo_Documento(models.TextChoices):
+        CEDULA = 'CC', _("Cédula Ciudadania")
+        TARJETA = 'TI', _("Tarjeta de Identidad")
+        CEDULA_EXTRANJERIA = 'CE', _("Cédula de Extranjería")
 
-        CEDULA='CC',_("Cédula Ciudadania")
-        TARJETA='TI',_("Tarjeta de Idetidad")
-        CEDULA_EXTRANJERIA='CE',_("Cédula de Extranjería")
+    tipo_documento = models.CharField(max_length=2, choices=Tipo_Documento.choices, verbose_name="Tipo de Documento")
+    documento = models.CharField(max_length=20, verbose_name="Documento",validators=[numeros_validator, unique_documento_validator])
 
-    tipo_documento= models.CharField(max_length=2, choices=Tipo_Documento.choices, verbose_name="Tipo De Documento")
-    documento= models.CharField(max_length=20, verbose_name="Documento")
-
-    telefono_contacto=models.CharField(max_length=10, verbose_name="Teléfono De Contacto")
-    telefono_personal=models.CharField(max_length=10, verbose_name="Teléfono Personal")
+    telefono_contacto = models.CharField(max_length=10, verbose_name="Teléfono de contacto",validators=[numeros_validator])
+    telefono_personal = models.CharField(max_length=10, verbose_name="Teléfono personal",validators=[numeros_validator]) 
 
     class Rol(models.TextChoices):
         EMPLEADO = 'Empleado', _("Empleado")
@@ -30,33 +40,24 @@ class Usuario(models.Model):
 
     rol = models.CharField(max_length=10, choices=Rol.choices, verbose_name="Rol")
 
-    correo=models.CharField(max_length=40, verbose_name="Correo Electrónico")
+    correo = models.CharField(max_length=40, verbose_name="Correo Electrónico")
 
     class Estado(models.TextChoices):
-        ACTIVO='1',_("Activo")
-        INACTIVO='0',_("Inactivo")
-        CONDICIONADO='2',_("Condicionado")
-    estado=models.CharField(max_length=1,choices=Estado.choices,default=Estado.ACTIVO,verbose_name="Estado")
-
-
-    def clean(self):
-        self.primer_nombre= self.primer_nombre.title()
-        self.segundo_nombre= self.segundo_nombre.title()
-
-        self.primer_apellido= self.primer_apellido.title()
-        self.segundo_apellido= self.segundo_apellido.title()
-        self.correo= self.correo.lower()
-
-
+        ACTIVO = '1', _("Activo")
+        INACTIVO = '0', _("Inactivo")
+    estado = models.CharField(max_length=1, choices=Estado.choices, default=Estado.ACTIVO, verbose_name="Estado")
+    
+   
+   
     def __str__(self):
-        return "%s %s"%(self.primer_nombre,self.primer_apellido)
+        return "%s %s" % (self.primer_nombre, self.primer_apellido)
 
     class Meta:
         verbose_name_plural = "Usuarios"
 
-        
 class Salario(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuario")
+
     class Nivel(models.TextChoices):
         NIVEL1 = '1', _("Nivel 1")
         NIVEL2 = '2', _("Nivel 2")
@@ -77,6 +78,7 @@ class Salario(models.Model):
 
     class Meta:
         verbose_name_plural = "Salarios"
+
 
 
 

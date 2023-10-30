@@ -3,6 +3,7 @@
 
 
 {% block contenido %}
+
     <div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
         <div class="d-flex justify-content-end">
             <h6 style="color: aliceblue;"><a href="{% url 'index' %}" style="text-decoration: none; color: yellow">Felminas</a>
@@ -17,46 +18,55 @@
                     <path fill-rule="evenodd"
                           d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
                 </svg>
-                <a href="{% url 'salario-crear' %}" style="text-decoration: none; color: yellow">Crear</a>
+                <a href="{% url 'salario-crear' %}" style="text-decoration: none; color: yellow">Crear</a></h6>
         </div>
     </div>
+
+
+
     <div class=" container " style="color: aliceblue; border-radius: 11px;">
 
         <div class="" style="">
+
+
             <form action="" class="for" method="POST">
 
-                <div class="col">
-                    {% csrf_token %}
-                    {{ form.usuario|as_crispy_field }}
-                </div>
-                <div class="col">
-                    {{ form.nivel|as_crispy_field }}
+                <div class="row">
+                    <div class="col">
+                      {% csrf_token %}
+                        {{form.usuario|as_crispy_field}}
+                    </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        {% csrf_token %}
-                        {{ form.fecha|as_crispy_field }}
+                        {{form.nivel|as_crispy_field}}
                     </div>
+                </div>
+
+                    <div class="row">
                     <div class="col">
-                        {{ form.estado|as_crispy_field }}
+                      {% csrf_token %}
+                        {{form.fecha|as_crispy_field}}
                     </div>
                 </div>
 
 
+
                 <div style="padding: 3% 5% 2% 5%" class="d-flex justify-content-evenly">
                     <button class="creats">
-                        <input class="btn"
-                               style="font-family: 'Libre Franklin', sans-serif;" type="submit"
-                               value="Agregar {{ titulo }}">
+                    <input class="btn"
+                           style="font-family: 'Libre Franklin', sans-serif;" type="submit"
+                           value="Agregar {{ titulo }}">
                     </button>
 
                     <button class="creatse">
                         <a href="{% url 'salario' %}" class="btn"
                            style="font-family: 'Libre Franklin', sans-serif;"> Cancelar {{ titulo }}</a>
                     </button>
-                </div>
 
+                </div>
             </form>
         </div>
+
 {% endblock contenido %}
