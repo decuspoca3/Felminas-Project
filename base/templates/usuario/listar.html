@@ -76,15 +76,8 @@
       <td>{{usuario.documento}}</td>
       <td>{{usuario.rol}}</td>
       <td>Activo</td>
-<<<<<<< HEAD
-      
-      <td>
-        {% if user.rol == "Admin" %}
-=======
       {% if user.rol == "Admin" %}
       <td>
->>>>>>> main
-
         <button class="bton_eliminar">
           <a class="btn btn-danger" href="{% url 'usuario-eliminar' usuario.id %}" onclick="return confirm('¿Está seguro de eliminar {{ titulo|lower }}?')">
               <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icons">
@@ -101,10 +94,6 @@
               </svg>
           </a>
         </button>
-<<<<<<< HEAD
-        {% endif %}
-=======
->>>>>>> main
 
       </td>
       {% endif %}
