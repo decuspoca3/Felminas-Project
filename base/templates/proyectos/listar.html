@@ -1,0 +1,111 @@
+{% extends 'partials/body.html' %}
+<head>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/static/datatables_custom/bootstrap/css/bootstrap-grid.min.css">
+  <!-- CSS personalizado --> 
+  
+    
+  <!--datables CSS básico-->
+  <link rel="stylesheet" type="text/css" href="/static/datatables_custom/datatables/datatables.min.css"/>
+  <!--datables estilo bootstrap 4 CSS-->  
+  <link rel="stylesheet"  type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+         
+  <!--font awesome con CDN-->  
+    
+</head>
+
+{% block contenido %}
+<div  class="preloader flex-column justify-content-center  align-items-center">
+  <img class="animation__wobble" src="/static/img/logo.png"
+      alt="AdminLTELogo" height="200"
+      width="200">
+</div>
+
+<div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
+  <div class="d-flex justify-content-end">
+  <h6  style="color: aliceblue;"><a href="{% url 'index' %}"style="text-decoration: none; color: yellow">Felminas</a>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+    </svg>
+    <a href="{% url 'compras' %}" style="text-decoration: none; color: yellow"> Compra</a>
+   
+  </h6>
+</div>
+</div>
+
+<div class="container">
+<div class="bg-black p-2 text-dark bg-opacity-50  align-items-center " style="width: 100%;" >
+<div style="padding: 0% 1% 1% 0%">
+  <button class="creat">
+
+<a href="{% url 'compras-crear' %}"  class="btn" style="font-family: 'Libre Franklin', sans-serif;"> Crear {{titulo}}</a>
+  </button>
+</div>
+<table id="example" class="table table-striped table-hover table table-dark">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>N° de serie</th>
+      <th>Fecha</th>
+      <th>Empleado</th>
+      <th>Proveedor</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for proyecto in proyectos %}
+
+    <tr>
+        <td>{{proyecto.id}} </td>
+        <td>{{proyecto.nombre}} </td>
+        <td>{{proyecto.fecha_creacion}} </td>
+        <td>{{proyecto.Empleado}} </td>
+        <td>{{proyecto.aprendiz}} </td>
+      <td>
+        {% if proyecto.estado == "1" %}
+                
+        <a class="btn btn-danger" href="{% url 'compras-eliminar' proyecto.id %}"onclick="return confirm('¿Está seguro de finalizar la {{ titulo|lower }}?')">
+            Finalizar
+        </a>
+    {%else%}
+        <a class="btn btn-info" href="{% url 'compras-final' proyecto.id %}">Ver
+            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+              </svg>
+        </a>
+    {%endif%}
+    
+    {% if proyecto.estado == "1" %}
+    <a class="btn btn-primary" href="{% url 'compras-crear' proyecto.id %}">+</a>
+    {%endif%}
+        
+
+      </td>
+    </tr>
+  
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+</div>
+
+
+<div style="padding: 0% 0% 10% 0%"></div>
+<script src="/static/datatables_custom/jquery/jquery-3.3.1.min.js"></script>
+ <script src="/static/datatables_custom/popper/popper.min.js"></script>
+ <script src="/static/datatables_custom/bootstrap/js/bootstrap.min.js"></script>
+   
+ <!-- datatables JS -->
+ <script type="text/javascript" src="datatables/datatables.min.js"></script>    
+  
+ <!-- para usar botones en datatables JS -->  
+ <script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>  
+ <script src="/static/datatables_custom/datatables/JSZip-2.5.0/jszip.min.js"></script>    
+ <script src="/static/datatables_custom/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>    
+ <script src="/static/datatables_custom/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+ <script src="/static/datatables_custom/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+  
+ <!-- código JS propìo-->    
+ <script type="text/javascript" src="/static/datatables_custom/main.js"></script>
+{% endblock contenido %} 

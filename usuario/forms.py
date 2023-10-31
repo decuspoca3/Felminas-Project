@@ -6,6 +6,7 @@ class UsuarioForm(ModelForm):
     class Meta:
         model = Usuario
         fields = "__all__"
+        exclude = ["estado"]
 
         widgets={
             'fecha_nacimiento': widgets.DateInput(attrs={'type':'date'},format='%Y-%m-%d')
@@ -16,7 +17,11 @@ class UsuarioUpdateForm(ModelForm):
     class Meta:
         model = Usuario
         fields = "__all__"
+<<<<<<< HEAD
         exclude = ["documento"]
+=======
+        exclude = ["documento","estado"]
+>>>>>>> main
 
 class SalarioForm(ModelForm):
 

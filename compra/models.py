@@ -5,7 +5,17 @@ import uuid
 from decimal import Decimal
 import locale
 from django.db.models import Sum
+<<<<<<< HEAD
 
+=======
+from usuario.models import Usuario
+from django.core.exceptions import ValidationError
+
+def validate_positive(value):
+        if value < 1:
+            raise ValidationError("La cantidad debe ser un número positivo.")
+        
+>>>>>>> main
 # Create your models here.
 def get_image_filename(instance, filename):
     ext = filename.split('.')[-1]
@@ -32,7 +42,11 @@ class Ficha(models.Model):
 
 class Proyecto(models.Model):
     nombre= models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
+<<<<<<< HEAD
     aprendiz= models.ForeignKey(Cuenta,verbose_name="Proveedor",related_name="Proveedor", on_delete=models.CASCADE)
+=======
+    aprendiz= models.ForeignKey(Usuario,verbose_name="Proveedor",related_name="Proveedor", on_delete=models.CASCADE)
+>>>>>>> main
     Empleado= models.ForeignKey(Cuenta,verbose_name="Empleado", on_delete=models.CASCADE)
 
     
@@ -48,7 +62,11 @@ class Proyecto(models.Model):
 
 
 class Integrantes(models.Model):
+<<<<<<< HEAD
     cantidad=models.IntegerField( verbose_name="cantidad")
+=======
+    cantidad=models.IntegerField( verbose_name="cantidad", validators=[validate_positive])
+>>>>>>> main
     grupo=models.ForeignKey(Proyecto,verbose_name="Grupo", on_delete=models.CASCADE)
     producto = models.ForeignKey("producto.Producto", on_delete=models.CASCADE, verbose_name="Producto")
     Precio = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio Unitario")

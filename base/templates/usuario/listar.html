@@ -57,7 +57,9 @@
       <th>Documento</th>
       <th>Rol</th>
       <th>Estado</th>
+      {% if user.rol == "Admin" %}
       <th>Acciones</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>      
@@ -74,9 +76,14 @@
       <td>{{usuario.documento}}</td>
       <td>{{usuario.rol}}</td>
       <td>Activo</td>
+<<<<<<< HEAD
       
       <td>
         {% if user.rol == "Admin" %}
+=======
+      {% if user.rol == "Admin" %}
+      <td>
+>>>>>>> main
 
         <button class="bton_eliminar">
           <a class="btn btn-danger" href="{% url 'usuario-eliminar' usuario.id %}" onclick="return confirm('¿Está seguro de eliminar {{ titulo|lower }}?')">
@@ -94,9 +101,14 @@
               </svg>
           </a>
         </button>
+<<<<<<< HEAD
         {% endif %}
+=======
+>>>>>>> main
 
       </td>
+      {% endif %}
+
     </tr>
     {% endif %}
     {% endfor %}
