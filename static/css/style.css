@@ -191,7 +191,7 @@ footer {
 .conta {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
 }
 .redes a,
 .btn-mas label {
@@ -336,9 +336,46 @@ footer {
   padding: 0 .2em;
   color: #f9c90a;
  }
- 
- 
- 
+
+  /*input de correo*/
+.inp {
+  position: relative;
+ }
+
+ .inpu {
+      border: solid 1.5px #f9c90a;
+      border-radius: 1rem;
+      background: none;
+      padding: 15px;
+      width: 300px;
+      font-size: 1rem;
+      color: #f9c90a;
+      transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+ }
+
+ .userr {
+  position: absolute;
+  left: 15px;
+  color: #f9c90a;
+  pointer-events: none;
+  transform: translateY(1rem);
+  transition: 150ms cubic-bezier(0.4,0,0.2,1);
+ }
+
+ .inpu:focus, inpu:valid {
+  outline: none;
+  border: 1.5px solid #f9c90a;
+ }
+
+ .inpu:focus ~ .userr, inpu:valid ~ .userr {
+  transform: translateY(-50%) scale(0.8);
+  background-color: #1A1A1A;
+  padding: 0 .2em;
+  color: #f9c90a;
+ }
+ /*input de correo*/
+
+
  /* boton de iniciar sesion*/
  .botto {
    --primary-color: #000;
@@ -400,6 +437,136 @@ footer {
    right: 0;
  }
  /*inicio sesio*/
+
+
+
+/* boton de enviar*/
+ .butt {
+   --primary-color: #000;
+   --secondary-color: #fff;
+   --hover-color: #f9c90a ;
+   --arrow-width: 20px;
+   --arrow-stroke: 2px;
+   box-sizing: border-box;
+   border: 0;
+   border-radius: 20px;
+   color: var(--secondary-color);
+   padding: 0.7em 7.0em;
+   background: var(--primary-color);
+   display: flex;
+   transition: 0.2s background;
+   align-items: center;
+   gap: 0.6em;
+   font-weight: bold;
+ }
+
+ .butt .aro-wrape {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .butt .aro {
+   margin-top: 1px;
+   width: var(--arrow-width);
+   background: var(--primary-color);
+   height: var(--arrow-stroke);
+   position: relative;
+   transition: 0.2s;
+ }
+
+ .butt .aro::before {
+   content: "";
+   box-sizing: border-box;
+   position: absolute;
+   border: solid var(--secondary-color);
+   border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+   display: inline-block;
+   top: -3px;
+   right: 3px;
+   transition: 0.2s;
+   padding: 3px;
+   transform: rotate(-45deg);
+ }
+
+ .butt:hover {
+   background-color: var(--hover-color);
+ }
+
+ .butt:hover .aro {
+   background: var(--secondary-color);
+ }
+
+ .butt:hover .aro:before {
+   right: 0;
+ }
+ /*enviar*/
+
+
+
+/*volver al inicio*/
+ .batt {
+   --primary-color: #000;
+   --secondary-color: #fff;
+   --hover-color: #f9c90a ;
+   --arrow-width: 20px;
+   --arrow-stroke: 2px;
+   box-sizing: border-box;
+   border: 0;
+   border-radius: 20px;
+   color: var(--secondary-color);
+   padding: 0.3em 7.0em;
+   background: var(--primary-color);
+   display: flex;
+   transition: 0.2s background;
+   align-items: center;
+   gap: 0.6em;
+   font-weight: bold;
+     text-decoration: #d0d0d0;
+ }
+
+ .batt .ara-wrapa {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .batt .ara {
+   margin-top: 1px;
+   width: var(--arrow-width);
+   background: var(--primary-color);
+   height: var(--arrow-stroke);
+   position: relative;
+   transition: 0.2s;
+ }
+
+ .batt .ara::before {
+   content: "";
+   box-sizing: border-box;
+   position: absolute;
+   border: solid var(--secondary-color);
+   border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+   display: inline-block;
+   top: -3px;
+   right: 3px;
+   transition: 0.2s;
+   padding: 3px;
+   transform: rotate(-45deg);
+ }
+
+ .batt:hover {
+   background-color: var(--hover-color);
+ }
+
+ .batt:hover .ara {
+   background: var(--secondary-color);
+ }
+
+ .batt:hover .ara:before {
+   right: 0;
+ }
+ /*volver al inicio*/
+
 
 
  /*boton de eliminar*/
@@ -833,12 +1000,51 @@ body{
   overflow-x: hidden;
 }
 
+/*boton de crear formuario*/
+.creats {
+  background-color: #f9c90a ;
+  border: 3px solid black;
+  padding: 5px 40px;
+  border-radius: 22px;
+  box-shadow: 2px 2px 1px  black;
+  transition: all .2s ease;
+  font-size: 1em;
+  font-weight: 800;
+}
+
+.creats:hover {
+  transform: translate(-2px, -1px);
+  box-shadow: 7px 7px 1px  rgb(0, 0, 0);
+  transition: all .2s ease-in;
+}
+
+/*boton de cerrar formuario*/
+.creatse {
+  background-color: #F50000 ;
+  border: 3px solid black;
+  padding: 5px 40px;
+  border-radius: 22px;
+  box-shadow: 2px 2px 1px black;
+  transition: all .2s ease;
+  font-size: 1em;
+  font-weight: 800;
+}
+
+.creatse:hover {
+  transform: translate(-2px, -1px);
+  box-shadow: 7px 7px 1px  rgb(0, 0, 0);
+  transition: all .2s ease-in;
+}
 
 
-
-
-
-
-
-
-
+.for{
+  --main-color: #f9c90a;
+  padding: 20px;
+  background: black;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 10px;
+  border: 3px solid var(--main-color);
+  box-shadow: 6px 6px var(--main-color);
+}

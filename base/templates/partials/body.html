@@ -26,6 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="/static/css/fontello.css ">
+
     <title> Felminas - {{ titulo }} </title>
 </head>
 
@@ -59,9 +60,6 @@
             {% endblock contenido %}
             </div>
 
-
-
-    
 
     </div>
 
@@ -109,50 +107,6 @@
 </body>
 
 </html>
-<script type="text/javascript" src="node_modules/accessibility/dist/main.bundle.js"></script>
-<script>
-  
-    // Obtener el token CSRF desde las cookies
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Buscar el nombre del token CSRF
-          if (cookie.substring(0, name.length + 1) === name + '=') {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-  
-    // Esperar a que el documento esté listo
-    $(document).ready(function () {
-      // Capturar el evento click del enlace
-      $("#backup-link").click(function (event) {
-        // Prevenir que el enlace realice su acción por defecto
-        event.preventDefault();
-  
-        // Obtener el token CSRF
-        const csrftoken = getCookie('csrftoken');
-  
-        // Realizar la solicitud POST para hacer el backup, incluyendo el token CSRF
-        $.ajax({
-          url: "{% url 'hacer_backup' %}",
-          type: "POST",
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-          },
-          success: function (data) {
-            console.log("Backup realizado correctamente");
-          },
-          error: function (xhr, textStatus, error) {
-            console.error("Error al realizar el backup:", error);
-          },
-        });
-      });
-    });
-  </script>
+
+<script type="text/javascript" src="{% static 'accessibility/dist/main.bundle.jsgit ' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>

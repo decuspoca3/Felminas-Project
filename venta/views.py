@@ -10,8 +10,14 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from decimal import Decimal
 import locale
+<<<<<<< HEAD
+
+
+
+=======
 from django.db import transaction
 from django.db.models import F
+>>>>>>> main
 
 def venta_listar(request):
     titulo="Venta"
@@ -73,8 +79,15 @@ def venta_crear(request, pk=0):
                 messages.success(request, 'Se actualizó la cantidad del producto.')
             else:
                 # Si el producto no existe, crea un nuevo registro
+<<<<<<< HEAD
+                precio_decimal = form_detalleventa.cleaned_data['precio_str']
                 detalleventa = form_detalleventa.save(commit=False)
                 detalleventa.grupo_id = pk
+                detalleventa.Precio = precio_decimal
+=======
+                detalleventa = form_detalleventa.save(commit=False)
+                detalleventa.grupo_id = pk
+>>>>>>> main
                 detalleventa.save()
                 messages.success(request, 'Detalle venta  se agregó correctamente.')
 
@@ -116,6 +129,24 @@ def venta_modificar(request,pk):
     return render(request,"venta/modificar.html", context)
 
 
+<<<<<<< HEAD
+def venta_eliminar(request,pk):
+    venta= Venta.objects.filter(id=pk)
+
+    detalleventa  = Detalleventa.objects.filter(grupo_id=pk)
+
+    if not detalleventa:
+        messages.error(request, 'No puedes finalizar la Venta sin un detalle venta. Agrega al menos uno antes de finalizarlo.')
+        return redirect('ventas')
+    venta.update(
+        estado="0"
+    )
+    print(venta[0].estado)
+    return redirect('ventas')
+
+
+
+=======
 
    
 def venta_eliminar(request, pk):
@@ -151,6 +182,7 @@ def venta_eliminar(request, pk):
     return redirect('ventas')
 
 
+>>>>>>> main
 def detalleventa_eliminar(request,pk):
     detalleventa  = get_object_or_404(Detalleventa, id=pk)
     id_proy=detalleventa.grupo.id

@@ -17,7 +17,11 @@ class UsuarioUpdateForm(ModelForm):
     class Meta:
         model = Usuario
         fields = "__all__"
+<<<<<<< HEAD
+        exclude = ["documento"]
+=======
         exclude = ["documento","estado"]
+>>>>>>> main
 
 class SalarioForm(ModelForm):
 
