@@ -6,19 +6,6 @@
 
 {% if user.rol == "Admin" %}
 
-<div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
-    <div class="d-flex justify-content-end">
-    <h6  style="color: aliceblue;"><a href="{% url 'index' %}"style="text-decoration: none; color: yellow">Felminas</a>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
-      </svg>
-      <a href="{% url 'producto' %}" style="text-decoration: none; color: yellow"> Producto</a>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
-      </svg>
-      <a href="{% url 'producto-crear' %}" style="text-decoration: none; color: yellow">Crear</a></h6>
-    </div>
-</div>
 
     <div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
         <div class="d-flex justify-content-end">
@@ -53,7 +40,7 @@
                         {{form.nombre|as_crispy_field}}
                     </div>
                     <div class="col">
-                        {{form.descripcion|as_crispy_field}}
+                        {{form.precio_str|as_crispy_field}}
                     </div>
                 </div>
 
@@ -70,7 +57,7 @@
                  <div class="row">
                     <div class="col">
                       {% csrf_token %}
-                        {{form.precio_str|as_crispy_field}}
+                        {{form.descripcion|as_crispy_field}}
                     </div>
                 </div>
 
@@ -100,16 +87,7 @@
         </div>
     {% endif %}
 
-    <div class="" style="padding: 1% 0% 1% 2% /*background-color: #212529;*/" >
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-    </div>
-    <div style="padding: 0% 0% 4% 2%">
-        <input  class="w-25 btn btn-warning border border-4 border border-aliceblue" style="font-family: 'Libre Franklin', sans-serif;" type="submit" value="Agregar {{titulo}}">
-        <a href="{% url 'producto' %}" class="w-25  btn btn-outline-danger " style="height: 45px; font-family: 'Libre Franklin', sans-serif; "> Cancelar {{titulo}}</a>
-    </div>
-    </form>
+    
 </div>
 {% endif %}
 

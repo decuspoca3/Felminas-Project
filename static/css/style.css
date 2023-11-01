@@ -1,3 +1,11 @@
+.card>hr {
+  margin-right: 0;
+  margin-left: 0;
+}
+.dark-mode .card {
+  background-color: #212529;
+  color: #fff;
+}
 input::placeholder {
   color: black;
   font-size: 1.2em;
@@ -544,7 +552,7 @@ footer {
    content: "";
    box-sizing: border-box;
    position: absolute;
-   border: solid var(--secondary-color);
+   border: so lid var(--secondary-color);
    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
    display: inline-block;
    top: -3px;
@@ -577,7 +585,7 @@ footer {
 }
 
 .bton_eliminar::after {
-  content: 'delete';
+  content: 'Eliminar';
   position: absolute;
   top: -130%;
   left: 50%;
@@ -624,7 +632,7 @@ footer {
 }
 
 .bton2::after {
-  content: 'modify';
+  content: 'Modificar';
   position: absolute;
   top: -130%;
   left: 50%;

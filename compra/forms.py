@@ -1,15 +1,11 @@
 from django.core.files.uploadedfile import UploadedFile
 from django.forms import ModelForm, widgets
 from compra.models import Ficha,Proyecto,Integrantes
-<<<<<<< HEAD
-from cuenta.models import Cuenta
-from django import forms
-=======
+
 from usuario.models import Usuario
 from django import forms
 from django.core.exceptions import ValidationError
 from producto.models import Producto
->>>>>>> main
 
 #class UsuarioForm(ModelForm):
     
@@ -85,11 +81,8 @@ class ProyectoForm(ModelForm):
         exclude=["estado","Empleado"]
     def __init__(self, *args, **kwargs):
         super(ProyectoForm, self).__init__(*args, **kwargs)
-<<<<<<< HEAD
-        self.fields["aprendiz"].queryset =Cuenta.objects.filter(estado=Cuenta.Estado.ACTIVO,rol=Cuenta.Rol.ADMIN)
-=======
+
         self.fields["aprendiz"].queryset =Usuario.objects.filter(estado=Usuario.Estado.ACTIVO,rol=Usuario.Rol.PROVEEDOR)
->>>>>>> main
 
 
 class ProyectoUpdateForm(ModelForm):
@@ -109,14 +102,7 @@ class IntegrantesForm(ModelForm):
         
     def clean_precio_str(self):
         precio_str = self.cleaned_data['precio_str']
-<<<<<<< HEAD
-        precio_str = precio_str.replace(",", "").replace(".", "")  # Remover comas y puntos
-        try:
-            precio_decimal = float(precio_str)
-            return precio_decimal
-        except ValueError:
-            raise forms.ValidationError("Asegúrese de ingresar un valor numérico válido.")
-=======
+
         try:
             precio_decimal = round(float(precio_str.replace(",", "").replace(".", "").replace(" ", "")), 2)
             if precio_decimal < 0:
@@ -128,4 +114,3 @@ class IntegrantesForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(IntegrantesForm, self).__init__(*args, **kwargs)
         self.fields["producto"].queryset =Producto.objects.filter(estado=Producto.Estado.ACTIVO)
->>>>>>> main

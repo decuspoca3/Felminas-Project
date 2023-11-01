@@ -15,17 +15,35 @@
       
   </head>
 {% block contenido %}
+<div class="derecha bg-black p-2 text-dark bg-opacity-50 " style=" width: 101.4%;">
+    <div class="d-flex justify-content-end">
+        <h6 style="color: aliceblue;"><a href="{% url 'index' %}" style="text-decoration: none; color: yellow">Felminas</a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                 class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+            </svg>
+            <a href="{% url 'compras' %}" style="text-decoration: none; color: yellow">Compra</a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                 class="bi bi-chevron-compact-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"/>
+            </svg>
+            <a href="#" style="text-decoration: none; color: yellow">Detalle Compra</a></h6>
+    </div>
+</div>
+
 <div class="container" >
     <div class=" align-items-center">
     <div class="col-md">
         <div class="card p-3">
-            <div class="card-header">
+            
                 <h3 class="card-title">Detalle Compra</h3><br>
-                
-            </div>
+                <hr>
+            
 
             <div class="card-body">
-                <table id="example" class="table table-hover">
+                <table id="example" class="table table-hover"style="color:aliceblue;">
                     <thead>
                 
                 
