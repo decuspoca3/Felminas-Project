@@ -14,7 +14,11 @@ def numeros_validator(value):
 
 def unique_documento_validator(value):
     if Usuario.objects.filter(documento=value).exists():
-           raise ValidationError('Este documento ya está registrado.')    
+           raise ValidationError('Este documento ya está registrado.') 
+       
+def unique_correo(value):
+    if Usuario.objects.filter(correo=value).exists():
+           raise ValidationError('Este correo ya está registrado.')  
     
 class Usuario(models.Model):
     primer_nombre = models.CharField(max_length=45, verbose_name=_("Primer Nombre"), validators=[letras_validator])
@@ -40,7 +44,7 @@ class Usuario(models.Model):
 
     rol = models.CharField(max_length=10, choices=Rol.choices, verbose_name="Rol")
 
-    correo = models.CharField(max_length=40, verbose_name="Correo Electrónico")
+    correo = models.CharField(max_length=40, verbose_name="Correo Electrónico",validators=[unique_correo])
 
     class Estado(models.TextChoices):
         ACTIVO = '1', _("Activo")
@@ -56,11 +60,8 @@ class Usuario(models.Model):
         verbose_name_plural = "Usuarios"
 
 class Salario(models.Model):
-<<<<<<< HEAD
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuario")
-=======
+
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Empleado")
->>>>>>> main
 
     class Nivel(models.TextChoices):
         NIVEL1 = '1', _("Nivel 1")
